@@ -1,0 +1,272 @@
+/*created time 2016-4-22
+  @auther xiaoling 
+ **/
+
+
+package CreditLine
+
+
+
+import com.madai.model.approval.CreditLine.CreditLineIn;
+import com.madai.model.approval.CreditLine.CreditLineOut;
+//list any import classes here.
+
+
+//declare any global variables here
+
+rule "EWTBase_EWT_0001"
+    ruleflow-group "EWTBase"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(isLocal=="1" && isFemale=="1" && isHasHouse=="1" && age>=30 && age<=45);
+         cOut:CreditLineOut();  
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(6);
+        cOut.setAmount(cExt.getIncome()*6);
+        cExt.setMiddleCode("EWT_0001");  
+        update(cExt);    
+end
+rule "EWTBase_EWT_0002"
+    ruleflow-group "EWTBase"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(isLocal=="1" && isFemale=="1" && isHasHouse=="1" && (age<30||age>45));
+         cOut:CreditLineOut();  
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(5);
+        cOut.setAmount(cExt.getIncome()*5);
+        cExt.setMiddleCode("EWT_0002");   
+        update(cExt);   
+end
+rule "EWTBase_EWT_0003"
+    ruleflow-group "EWTBase"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(isLocal=="1" && isFemale=="0" && isHasHouse=="1" && age>=30 && age<=45);
+         cOut:CreditLineOut();  
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(5);
+        cOut.setAmount(cExt.getIncome()*5);
+        cExt.setMiddleCode("EWT_0003");  
+        update(cExt);    
+end
+rule "EWTBase_EWT_0004"
+    ruleflow-group "EWTBase"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(isLocal=="0" && isFemale=="0" && isHasHouse=="1" && age>=30 && age<=45);
+         cOut:CreditLineOut();  
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(4.5);
+        cOut.setAmount(cExt.getIncome()*4.5);
+        cExt.setMiddleCode("EWT_0004");  
+        update(cExt);    
+end
+rule "EWTBase_EWT_0005"
+    ruleflow-group "EWTBase"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(isLocal=="1" && isFemale=="0" && isHasHouse=="1" && (age<30||age>45));
+         cOut:CreditLineOut();  
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(4.5);
+        cOut.setAmount(cExt.getIncome()*4.5);
+        cExt.setMiddleCode("EWT_0005");  
+        update(cExt);    
+end
+rule "EWTBase_EWT_0006"
+    ruleflow-group "EWTBase"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(isLocal=="0" && isFemale=="1" && isHasHouse=="1" && age>=30 && age<=45);
+         cOut:CreditLineOut();  
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(4.5);
+        cOut.setAmount(cExt.getIncome()*4.5);
+        cExt.setMiddleCode("EWT_0006");     
+        update(cExt); 
+end
+rule "EWTBase_EWT_0007"
+    ruleflow-group "EWTBase"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(isLocal=="1" && isFemale=="1" && isHasHouse=="0" && (age<30||age>45));
+         cOut:CreditLineOut();  
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(4);
+        cOut.setAmount(cExt.getIncome()*4);
+        cExt.setMiddleCode("EWT_0007");     
+        update(cExt); 
+end
+rule "EWTBase_EWT_0008"
+    ruleflow-group "EWTBase"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(isLocal=="1" && isFemale=="0" && isHasHouse=="0" && age>=30 && age<=45);
+         cOut:CreditLineOut();  
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(4);
+        cOut.setAmount(cExt.getIncome()*4);
+        cExt.setMiddleCode("EWT_0008");   
+        update(cExt);   
+end
+rule "EWTBase_EWT_0009"
+    ruleflow-group "EWTBase"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(isLocal=="0" && isFemale=="1" && isHasHouse=="1" && (age<30||age>45));
+         cOut:CreditLineOut();  
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(4);
+        cOut.setAmount(cExt.getIncome()*4);
+        cExt.setMiddleCode("EWT_0009");    
+        update(cExt);  
+end
+rule "EWTBase_EWT_0010"
+    ruleflow-group "EWTBase"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(isLocal=="1" && isFemale=="0" && isHasHouse=="0" && (age<30||age>45));
+         cOut:CreditLineOut();  
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(4);
+        cOut.setAmount(cExt.getIncome()*4);
+        cExt.setMiddleCode("EWT_0010");    
+        update(cExt);  
+end
+rule "EWTBase_EWT_0011"
+    ruleflow-group "EWTBase"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(isLocal=="0" && isFemale=="0" && isHasHouse=="1" && (age<30||age>45));
+         cOut:CreditLineOut();  
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(4);
+        cOut.setAmount(cExt.getIncome()*4);
+        cExt.setMiddleCode("EWT_0011");    
+        update(cExt);  
+end
+rule "EWTBase_EWT_0012"
+    ruleflow-group "EWTBase"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(isLocal=="1" && isFemale=="1" && isHasHouse=="0" && age>=30 && age<=45);
+         cOut:CreditLineOut();  
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(4);
+        cOut.setAmount(cExt.getIncome()*4);
+        cExt.setMiddleCode("EWT_0012");   
+        update(cExt);   
+end
+rule "EWTBase_EWT_0013"
+    ruleflow-group "EWTBase"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(isLocal=="0" && isFemale=="0" && isHasHouse=="0" && (age<30||age>45));
+         cOut:CreditLineOut();  
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(3.5);
+        cOut.setAmount(cExt.getIncome()*3.5);
+        cExt.setMiddleCode("EWT_0013");    
+        update(cExt);  
+end
+rule "EWTBase_EWT_0014"
+    ruleflow-group "EWTBase"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(isLocal=="0" && isFemale=="1" && isHasHouse=="0" && age>=30 && age<=45);
+         cOut:CreditLineOut();  
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(3.5);
+        cOut.setAmount(cExt.getIncome()*3.5);
+        cExt.setMiddleCode("EWT_0014");    
+        update(cExt);  
+end
+rule "EWTBase_EWT_0015"
+    ruleflow-group "EWTBase"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(isLocal=="0" && isFemale=="1" && isHasHouse=="0" && (age<30||age>45));
+         cOut:CreditLineOut();  
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(3.5);
+        cOut.setAmount(cExt.getIncome()*3.5);
+        cExt.setMiddleCode("EWT_0015");      
+        update(cExt);
+end
+rule "EWTBase_EWT_0016"
+    ruleflow-group "EWTBase"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(isLocal=="0" && isFemale=="0" && isHasHouse=="0" && age>=30 && age<=45);
+         cOut:CreditLineOut();  
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(3.5);
+        cOut.setAmount(cExt.getIncome()*3.5);
+        cExt.setMiddleCode("EWT_0016");   
+        update(cExt);   
+end

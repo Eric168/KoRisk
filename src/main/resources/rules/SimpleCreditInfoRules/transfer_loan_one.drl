@@ -1,0 +1,111 @@
+//created on: 2016-05-16
+package SimpleCreditInfoRules
+
+import com.madai.model.approval.CreditBusiness.CreditBusinessResult;
+import com.madai.model.approval.CreditBusiness.CreditParticular;
+//list any import classes here.
+
+//loanCutPayMore24MonthList
+rule "loanCutPayMore24MonthList"
+      ruleflow-group "transfer_loan_one"
+    when
+        //conditions
+        CBRT:CreditBusinessResult();
+        CBTR:CreditParticular(busiType=="LOAN" && (loanSettlemonths()<=24 || currencyType!="人民币" || acctStatus!="3" )) from CBRT.creditParticularList;
+    then
+        //actions
+        CBRT.getLoanCutPayMore24MonthList().add(CBTR);
+       
+        
+ end 
+//loanPastdueAmountMore250Count
+rule "loanPastdueAmountMore250Count"
+      ruleflow-group "transfer_loan_one"
+      salience 300
+    when
+        //conditions
+        CBRT:CreditBusinessResult();
+        CBTR:CreditParticular(busiType=="LOAN" && pastdueAmt>250) from CBRT.creditParticularList;
+    then
+        //actions
+        CBRT.setLoanPastdueAmountMore250Count(CBRT.getLoanPastdueAmountMore250Count()+1);
+ end  
+
+//loanPastdueLess90Less01YearCount
+rule "loanPastdueLess90Less01YearCount"
+      ruleflow-group "transfer_loan_one"
+      salience 299
+    when
+        //conditions
+        CBRT:CreditBusinessResult();
+        CBTR:CreditParticular(busiType=="LOAN" && loanOpenMonths()<=12 && pastdueBy60Cnt>0 && pastdueM3By60Cnt<1 && pastdueBy60Cnt>=(alreadyRepaymentMonths()*0.5)) from CBRT.creditParticularList;
+    then
+        //actions
+        CBRT.setLoanPastdueLess90Less01YearCount(CBRT.getLoanPastdueLess90Less01YearCount()+1);     
+ end 
+ 
+ //loanPastdueLess90More01More10MonthCount
+rule "loanPastdueLess90More01More10MonthCount"
+      ruleflow-group "transfer_loan_one"
+      salience 298
+    when
+        //conditions
+        CBRT:CreditBusinessResult();
+        CBTR:CreditParticular(busiType=="LOAN" && loanOpenMonths()>12 && pastdueBy60Cnt>0 && pastdueM3By60Cnt<1 && (pastdueBy60Cnt >=10|| pastdueBy60Cnt>=(alreadyRepaymentMonths()*0.5))) from CBRT.creditParticularList;
+    then
+        //actions
+        CBRT.setLoanPastdueLess90More01More10MonthCount(CBRT.getLoanPastdueLess90More01More10MonthCount()+1);
+ end 
+
+//loanPastdueLess90More01More50Or10Count
+rule "loanPastdueLess90More01More50Or10Count"
+      ruleflow-group "transfer_loan_one"
+      salience 297
+    when
+        //conditions
+        CBRT:CreditBusinessResult();
+        CBTR:CreditParticular(busiType=="LOAN" && loanOpenMonths()>12 && pastdueBy60Cnt>0 && pastdueM3By60Cnt<1 && (pastdueBy60Cnt >=10|| pastdueBy60Cnt>=(alreadyRepaymentMonths()*0.5))
+                              && (loanSettlemonths()<=12 || months2()<=12) &&  afterLoanNewRecordFlag=="0") from CBRT.creditParticularList;
+    then
+        //actions
+        CBRT.setLoanPastdueLess90More01More50Or10Count(CBRT.getLoanPastdueLess90More01More50Or10Count()+1);
+ end 
+ 
+ //loanPastdueMore90More01YearMore01Count
+rule "loanPastdueMore90More01YearMore01Count"
+      ruleflow-group "transfer_loan_one"
+      salience 296
+    when
+        //conditions
+        CBRT:CreditBusinessResult();
+        CBTR:CreditParticular(busiType=="LOAN" && loanOpenMonths()<=12 && pastdueM3By60Cnt>=1 ) from CBRT.creditParticularList;
+    then
+        //actions
+        CBRT.setLoanPastdueMore90More01YearMore01Count(CBRT.getLoanPastdueMore90More01YearMore01Count()+1);
+ end 
+ 
+ //loanPastdueMore90More01Less02YearMore02Count
+rule "loanPastdueMore90More01Less02YearMore02Count"
+      ruleflow-group "transfer_loan_one"
+      salience 295
+    when
+        //conditions
+        CBRT:CreditBusinessResult();
+        CBTR:CreditParticular(busiType=="LOAN" && loanOpenMonths()>12 && loanOpenMonths()<=24 && pastdueM3By60Cnt>=2 ) from CBRT.creditParticularList;
+    then
+        //actions
+        CBRT.setLoanPastdueMore90More01Less02YearMore02Count(CBRT.getLoanPastdueMore90More01Less02YearMore02Count()+1);
+ end 
+ 
+    //loanRecordTotalCount
+rule "loanRecordTotalCount"
+      ruleflow-group "transfer_loan_one"
+      salience 294
+    when
+        //conditions
+        CBRT:CreditBusinessResult();
+        CBTR:CreditParticular(busiType=="LOAN") from CBRT.creditParticularList;
+    then
+        //actions
+        CBRT.setLoanRecordTotalCount(CBRT.getLoanRecordTotalCount()+1);
+ end 

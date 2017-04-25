@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<process xmlns="http://drools.org/drools-5.0/process"
+         xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+         xs:schemaLocation="http://drools.org/drools-5.0/process drools-processes-5.0.xsd"
+         type="RuleFlow" name="CreditScore" id="CreditScoreAutoAudit.auditOneCreditScoreFlow" package-name="autoAuditOneCreditScore" >
+
+  <header>
+    <imports>
+      <import name="com.madai.model.approval.CreditScoreAutoAuditOneExtendIn" />
+    </imports>
+  </header>
+
+  <nodes>
+    <ruleSet id="17" name="groupLevel" x="78" y="422" width="164" height="54" ruleFlowGroup="auditGroupLevel" />
+    <end id="16" name="End" x="394" y="526" width="48" height="48" />
+    <start id="1" name="Start" x="391" y="42" width="48" height="48" />
+    <end id="19" name="End" x="137" y="521" width="48" height="48" />
+    <end id="18" name="End" x="634" y="519" width="48" height="104" />
+    <ruleSet id="3" name="groupLevel" x="345" y="425" width="146" height="52" ruleFlowGroup="auditGroupLevel" />
+    <split id="5" name="Gateway" x="389" y="135" width="49" height="49" type="2" >
+      <metaData name="UniqueId">
+        <value>_jbpm-unique-1231</value>
+      </metaData>
+      <constraints>
+        <constraint toNodeId="7" toType="DROOLS_DEFAULT" name="isCreditNoLoan" priority="2" type="rule" dialect="java" >cExt:CreditScoreAutoAuditOneExtendIn(cardOrgCNT&gt;0 &amp;&amp; loanAccountCNT==0)</constraint>
+        <constraint toNodeId="11" toType="DROOLS_DEFAULT" name="theOtherUser" priority="3" type="rule" dialect="java" >cExt:CreditScoreAutoAuditOneExtendIn((cardOrgCNT==0 &amp;&amp; loanAccountCNT&gt;0)||(cardOrgCNT==0 &amp;&amp; loanAccountCNT==0))</constraint>
+        <constraint toNodeId="6" toType="DROOLS_DEFAULT" name="isCreditIsLoan" priority="1" type="rule" dialect="java" >cExt:CreditScoreAutoAuditOneExtendIn(cardOrgCNT&gt;0 &amp;&amp; loanAccountCNT&gt;0)</constraint>
+      </constraints>
+    </split>
+    <ruleSet id="6" name="modelOneConvert" x="85" y="223" width="138" height="58" ruleFlowGroup="modelOneConvert" />
+    <ruleSet id="7" name="modelTwoConvert" x="343" y="229" width="144" height="56" ruleFlowGroup="modelTwoConvert" />
+    <ruleSet id="11" name="modelThr" x="589" y="235" width="130" height="48" ruleFlowGroup="modelThrDefault" />
+    <ruleSet id="13" name="modelOneCreditScore" x="69" y="323" width="172" height="56" ruleFlowGroup="modelOneCreditScore" />
+    <ruleSet id="14" name="modelTwoCreditScore" x="331" y="330" width="176" height="55" ruleFlowGroup="modelTwoCreditScore" />
+  </nodes>
+
+  <connections>
+    <connection from="13" to="17" />
+    <connection from="3" to="16" />
+    <connection from="17" to="19" />
+    <connection from="11" to="18" />
+    <connection from="14" to="3" />
+    <connection from="1" to="5" />
+    <connection from="5" to="6" />
+    <connection from="5" to="7" />
+    <connection from="5" to="11" />
+    <connection from="6" to="13" />
+    <connection from="7" to="14" />
+  </connections>
+
+</process>

@@ -1,0 +1,135 @@
+//created on: 2016-5-16
+package SimpleCreditInfoRules
+
+//list any import classes here.
+import com.madai.model.approval.CreditBusiness.CreditBusinessResult;
+import com.madai.model.approval.CreditBusiness.CreditParticular;
+
+
+//::4
+rule "cardNowPastdueMore250NoHistoryMore6Count"
+	ruleflow-group "transfer_credit_two"
+	salience 899
+    when
+        CBRT:CreditBusinessResult();
+        CBTR:CreditParticular(busiType=="CREDIT_CARD" && subBusiType=="贷记卡" && pastdueAmt>250 && cardOpenMonths() > 6 && afterLoanCardNoNewRecordFlag == "0") from CBRT.creditParticularList;
+    then
+        CBRT.setCardNowPastdueMore250NoHistoryMore6Count(CBRT.getCardNowPastdueMore250NoHistoryMore6Count()+1);
+end
+
+//::5
+rule "cardNowPastdueMore250NoHistoryLess6Count"
+	ruleflow-group "transfer_credit_two"
+	salience 898
+    when
+        CBRT:CreditBusinessResult();
+        CBTR:CreditParticular(busiType=="CREDIT_CARD" && subBusiType=="贷记卡" && pastdueAmt>250 && cardOpenMonths() <= 6 && afterLoanCardNoNewRecordFlag == "0") from CBRT.creditParticularList;
+    then
+        CBRT.setCardNowPastdueMore250NoHistoryLess6Count(CBRT.getCardNowPastdueMore250NoHistoryLess6Count()+1);
+end
+
+//::6
+rule "cardDzZfMore250Count"
+	ruleflow-group "transfer_credit_two"
+	salience 897
+    when
+        CBRT:CreditBusinessResult();
+        CBTR:CreditParticular(acctStatus in("13","15") && busiType=="CREDIT_CARD" && subBusiType=="贷记卡" && creditBalance>250 ) from CBRT.creditParticularList;
+    then
+        CBRT.setCardDzZfMore250Count(CBRT.getCardDzZfMore250Count()+1);
+end
+
+//::7
+rule "cardDzZfLess250OverXhNoNewCount"
+	ruleflow-group "transfer_credit_two"
+	salience 896
+    when
+        CBRT:CreditBusinessResult();
+        CBTR:CreditParticular(acctStatus in("13","15") && busiType=="CREDIT_CARD" && subBusiType=="贷记卡" && creditBalance<=250 && afterCardNewRecordFlag =="0") from CBRT.creditParticularList;
+    then
+        CBRT.setCardDzZfLess250OverXhNoNewCount(CBRT.getCardDzZfLess250OverXhNoNewCount()+1);
+end
+
+//::8
+rule "cardPastdueMore90Less01YMore50Count"
+	ruleflow-group "transfer_credit_two"
+	salience 895
+    when
+        CBRT:CreditBusinessResult();
+        CBTR:CreditParticular(busiType=="CREDIT_CARD" && subBusiType=="贷记卡" && pastdueBy60Cnt>0 && pastdueM3By60Cnt <1
+        						&& cardOpenMonths()<=12 && pastdueBy60Cnt>=cardOpenMonths()*0.5) from CBRT.creditParticularList;
+    then
+        CBRT.setCardPastdueMore90Less01YMore50Count(CBRT.getCardPastdueMore90Less01YMore50Count()+1);
+end
+
+//::9
+rule "cardPastdueLess90More01YMore50ACount"
+	ruleflow-group "transfer_credit_two"
+	salience 894
+    when
+        CBRT:CreditBusinessResult();
+        CBTR:CreditParticular(busiType=="CREDIT_CARD" && subBusiType=="贷记卡"  && pastdueM3By60Cnt <1
+        						&& cardOpenMonths()>12 && (pastdueBy60Cnt>=cardOpenMonths()*0.5 || pastdueBy60Cnt>=12)) from CBRT.creditCardCutPayMore24MonthList;
+   then
+        CBRT.setCardPastdueLess90More01YMore50ACount(CBRT.getCardPastdueLess90More01YMore50ACount()+1);
+end
+
+//::10
+rule "cardPastdueLess90More01YMore50ABCDCount"
+	ruleflow-group "transfer_credit_two"
+	salience 893
+    when
+        CBRT:CreditBusinessResult();
+        CBTR:CreditParticular(busiType=="CREDIT_CARD" && subBusiType=="贷记卡" && pastdueBy60Cnt>0 && pastdueM3By60Cnt <1
+        						&& cardOpenMonths()>12 && (pastdueBy60Cnt>=(cardOpenMonths()*0.5) || pastdueBy60Cnt>=12)
+        						&& (creditLineAmt>500 || acctStatus == "14") && cardAccountClosedMonths()<=12  && afterCardNewRecordFlag == "0") from CBRT.creditCardCutPayMore24MonthList;
+    then
+        CBRT.setCardPastdueLess90More01YMore50ABCDCount(CBRT.getCardPastdueLess90More01YMore50ABCDCount()+1);
+end
+
+//::11
+rule "cardPastdueMore90Less01Y90More01Count"
+	ruleflow-group "transfer_credit_two"
+	salience 892
+    when
+        CBRT:CreditBusinessResult();
+        CBTR:CreditParticular(busiType=="CREDIT_CARD" && subBusiType=="贷记卡" 
+        						&& cardOpenMonths()<=12 &&  pastdueM3By60Cnt>=1) from CBRT.creditParticularList;
+    then
+        CBRT.setCardPastdueMore90Less01Y90More01Count(CBRT.getCardPastdueMore90Less01Y90More01Count()+1);
+end
+
+//::12
+rule "cardPastdueMore90More01Less02Y90More02Count"
+	ruleflow-group "transfer_credit_two"
+	salience 891
+    when
+        CBRT:CreditBusinessResult();
+        CBTR:CreditParticular(busiType=="CREDIT_CARD" && subBusiType=="贷记卡" 
+        						&& cardOpenMonths()<=24 && cardOpenMonths()>12 &&  pastdueM3By60Cnt>=2) from CBRT.creditParticularList;
+    then
+        CBRT.setCardPastdueMore90More01Less02Y90More02Count(CBRT.getCardPastdueMore90More01Less02Y90More02Count()+1);
+end
+
+//::13
+rule "cardPastdueMore90More02YMore02OverNoNewCount"
+	ruleflow-group "transfer_credit_two"
+	salience 890
+    when
+        CBRT:CreditBusinessResult();
+        CBTR:CreditParticular(busiType=="CREDIT_CARD" && subBusiType=="贷记卡" && cardOpenMonths()>24
+        						&& pastdueM3By60Cnt>=2 && afterCardNewRecordFlag == "0") from CBRT.creditCardCutPayMore24MonthList;
+    then
+        CBRT.setCardPastdueMore90More02YMore02OverNoNewCount(CBRT.getCardPastdueMore90More02YMore02OverNoNewCount()+1);
+end
+
+//::14
+rule "cardMore250Pastdue90More02OverNoNewCount"
+	ruleflow-group "transfer_credit_two"
+	salience 889
+    when
+        CBRT:CreditBusinessResult();
+        CBTR:CreditParticular(busiType=="CREDIT_CARD"  && subBusiType=="准贷记卡"  && (overdraftBalance>250 || acctStatus=="14" ) && pastdueM3By60Cnt>=2 && afterCardNewRecordFlag == "0") from CBRT.semiCreditCardCutPayMore24MonthList;
+    then
+        CBRT.setCardMore250Pastdue90More02OverNoNewCount(CBRT.getCardMore250Pastdue90More02OverNoNewCount()+1);
+end

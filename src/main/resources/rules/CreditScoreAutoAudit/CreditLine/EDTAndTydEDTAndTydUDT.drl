@@ -1,0 +1,25 @@
+//created on: 2016-4-25
+package CreditLine
+
+import com.madai.model.approval.CreditLine.CreditLineIn;
+import com.madai.model.approval.CreditLine.CreditLineOut;
+//list any import classes here.
+
+
+
+//declare any global variables here
+ //EDTAndTydEDTAndTydUDTl
+  rule "EDTAndTydEDTAndTydUDT_Line_3product00001"
+          ruleflow-group "EDTAndTydEDTAndTydUDT"
+    when
+        //conditions
+         cOut:CreditLineOut();
+         cExt:CreditLineIn();
+    then
+        //actions
+        cOut.setTimes(0);
+        cOut.setAmount(0);
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setReturnCode("Line_3product00001");
+end

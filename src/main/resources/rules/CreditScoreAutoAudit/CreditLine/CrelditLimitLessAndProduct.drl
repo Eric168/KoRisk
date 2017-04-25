@@ -1,0 +1,30 @@
+//created on: 2016-03-28
+package CreditLine
+
+import com.madai.model.approval.CreditLine.CreditLineIn;
+import com.madai.model.approval.CreditLine.CreditLineOut;
+//list any import classes here.
+
+rule "CreditLimit_UDT_0001"
+    ruleflow-group "CrelditLimitLessAndProduct"
+    no-loop true
+    when
+        //conditions
+         cOut:CreditLineOut(productCode in("Elite") && amount<30000 && amount>0);  
+    then
+        //actions       
+        cOut.setAmount(cOut.getAmount()*(-1));
+        update(cOut);
+end
+
+rule "CreditLimit_EXT_0002"
+    ruleflow-group "CrelditLimitLessAndProduct"
+    no-loop true
+    when
+        //conditions
+         cOut:CreditLineOut(productCode in("Eshetong","Ewangtong") && amount<10000 && amount>0);  
+    then
+        //actions       
+        cOut.setAmount(cOut.getAmount()*(-1));
+        update(cOut);
+end

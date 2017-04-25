@@ -1,0 +1,79 @@
+/*created time 2016-4-21
+  @auther xiaoling 
+ **/
+
+
+package CreditLine
+
+
+
+import com.madai.model.approval.CreditLine.CreditLineIn;
+import com.madai.model.approval.CreditLine.CreditLineOut;
+//list any import classes here.
+
+
+//declare any global variables here
+rule"ESTBase_Line_EST00029"
+    ruleflow-group "ESTDsrMore75AndLess5"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(middleCode=="EST_0013");
+         cOut:CreditLineOut();  
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(-1);
+        cOut.setAmount(cExt.getBase()*(-1));
+        cOut.setReturnCode("Line_EST00029");  
+        update(cOut);    
+end
+rule"ESTBase_Line_EST00030"
+    ruleflow-group "ESTDsrMore75AndLess5"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(middleCode=="EST_0014");
+         cOut:CreditLineOut();  
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(-1);
+        cOut.setAmount(cExt.getBase()*(-1));
+        cOut.setReturnCode("Line_EST00030");  
+        update(cOut);    
+end
+rule"ESTBase_Line_EST00031"
+    ruleflow-group "ESTDsrMore75AndLess5"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(middleCode=="EST_0015");
+         cOut:CreditLineOut();  
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(-1);
+        cOut.setAmount(cExt.getBase()*(-1));
+        cOut.setReturnCode("Line_EST00031");  
+        update(cOut);    
+end
+rule"ESTBase_Line_EST00032"
+    ruleflow-group "ESTDsrMore75AndLess5"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(middleCode=="EST_0016");
+         cOut:CreditLineOut();  
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(-1);
+        cOut.setAmount(cExt.getBase()*(-1));
+        cOut.setReturnCode("Line_EST00032");  
+        update(cOut);    
+end

@@ -1,0 +1,48 @@
+//created on: 2016-1-8
+package myrules
+
+import com.sample.model.Employ;
+//list any import classes here.
+import com.sample.model.Worker;
+
+
+//declare any global variables here
+
+
+
+
+rule "Technician"
+      ruleflow-group "duty_salary"
+    when
+        //conditions
+        emp:Employ(resume=="tech")
+    then
+        //actions
+        System.out.println("exec rule Technician!");
+        emp.setDutySalary(2000);
+
+end
+
+rule "Manager"
+    //include attributes such as "salience" here...
+     ruleflow-group "duty_salary"
+   when
+        //conditions
+        emp:Employ(resume=="manager")
+    then
+        //actions
+        System.out.println("exec rule Manager!");
+        emp.setBasicSalary(4500);
+
+end
+rule "listTest"
+       ruleflow-group "duty_salary"
+       no-loop true
+       when
+            emp:Employ();
+            worker:Worker(job=="gongren"&&createW()==7) from emp.workerList;
+       then
+       emp.setKk(emp.getKk()+1);
+       System.out.println("ttttttttt:"+worker.getJob());
+       System.out.println(emp.getKk());
+end

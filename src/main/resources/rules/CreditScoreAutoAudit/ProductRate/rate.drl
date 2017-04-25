@@ -1,0 +1,402 @@
+//created on: 2016-03-28
+package ProductRate
+
+import com.madai.model.approval.ProductRate.ProductRateIn;
+import com.madai.model.approval.ProductRate.ProductRateOut;
+//list any import classes here.
+
+
+
+//declare any global variables here
+
+ //Elite 
+  rule "ProductRate_Elite_1.80"
+          ruleflow-group "auditProductRate"
+          salience 99
+    when
+        //conditions
+         cOut:ProductRateOut();
+         cExt:ProductRateIn(productCode=="Elite" );
+    then
+        //actions
+        cOut.setRate(1.8);
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setReturnCode("P_Rate_001");
+        cOut.setSubProductCode("Elite1.8");     
+end
+
+ rule "ProductRate_Elite_1.60"
+          ruleflow-group "auditProductRate"
+          salience 98
+    when
+        //conditions
+         cOut:ProductRateOut();
+         cExt:ProductRateIn(productCode=="Elite" && isLocal=="1" && dsr<=1.0);
+    then
+        //actions
+        cOut.setRate(1.6);
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setReturnCode("P_Rate_003");
+        cOut.setSubProductCode("Elite1.6");
+end
+
+ rule "ProductRate_Elite_2.00"
+          ruleflow-group "auditProductRate"
+          salience 97
+    when
+        //conditions
+         cOut:ProductRateOut();
+         cExt:ProductRateIn(productCode=="Elite" && (isDivorce=="1" || (age<=25  || age>=50)));
+    then
+        //actions
+        cOut.setRate(2.0);
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setReturnCode("P_Rate_002");
+        cOut.setSubProductCode("Elite2.0");
+end
+
+//Eshetong
+  rule "ProductRate_Eshetong_2.20"
+          ruleflow-group "auditProductRate"
+          salience 96
+    when
+        //conditions
+         cOut:ProductRateOut();
+         cExt:ProductRateIn(productCode=="Eshetong" );
+    then
+        //actions
+        cOut.setRate(2.2);
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setReturnCode("P_Rate_004");
+        cOut.setSubProductCode("Eshetong2.2");
+end
+
+ rule "ProductRate_Eshetong_2.00"
+          ruleflow-group "auditProductRate"
+          salience 95
+    when
+        //conditions
+         cOut:ProductRateOut();
+         cExt:ProductRateIn(productCode=="Eshetong" && isLocal=="1" && dsr<=1.0);
+    then
+        //actions
+        cOut.setRate(2.0);
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setReturnCode("P_Rate_006");
+        cOut.setSubProductCode("Eshetong2.0");
+end
+
+ rule "ProductRate_Eshetong_2.40"
+          ruleflow-group "auditProductRate"
+          salience 94
+    when
+        //conditions
+         cOut:ProductRateOut();
+         cExt:ProductRateIn(productCode=="Eshetong" && (isDivorce=="1" || (age<=25  || age>=50)));
+    then
+        //actions
+        cOut.setRate(2.4);
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setReturnCode("P_Rate_005");
+        cOut.setSubProductCode("Eshetong2.4");
+end
+
+//Ewangtong
+  rule "ProductRate_Ewangtong_2.20"
+          ruleflow-group "auditProductRate"
+          salience 93
+    when
+        //conditions
+         cOut:ProductRateOut();
+         cExt:ProductRateIn(productCode=="Ewangtong" );
+    then
+        //actions
+        cOut.setRate(2.2);
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setReturnCode("P_Rate_007");
+        cOut.setSubProductCode("Ewangtong2.2");
+end
+
+ rule "ProductRate_Ewangtong_2.00"
+          ruleflow-group "auditProductRate"
+          salience 92
+    when
+        //conditions
+         cOut:ProductRateOut();
+         cExt:ProductRateIn(productCode=="Ewangtong" && isLocal=="1" && dsr<=1.0);
+    then
+        //actions
+        cOut.setRate(2.0);
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setReturnCode("P_Rate_009");
+        cOut.setSubProductCode("Ewangtong2.0");
+end
+
+rule "ProductRate_Ewangtong_2.40"
+          ruleflow-group "auditProductRate"
+          salience 91
+    when
+        //conditions
+         cOut:ProductRateOut();
+         cExt:ProductRateIn(productCode=="Ewangtong" && (isDivorce=="1" || (age<=25  || age>=50)));
+    then
+        //actions
+        cOut.setRate(2.4);
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setReturnCode("P_Rate_008");
+        cOut.setSubProductCode("Ewangtong2.4");
+end
+
+//Salariat
+  rule "ProductRate_Salariat_2.20"
+          ruleflow-group "auditProductRate"
+          salience 90
+    when
+        //conditions
+         cOut:ProductRateOut();
+         cExt:ProductRateIn(productCode=="Salariat" );
+    then
+        //actions
+        cOut.setRate(2.2);
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setReturnCode("P_Rate_010");
+        cOut.setSubProductCode("Salariat2.2");
+end
+
+ rule "ProductRate_Salariat_2.00"
+          ruleflow-group "auditProductRate"
+          salience 89
+    when
+        //conditions
+         cOut:ProductRateOut();
+         cExt:ProductRateIn(productCode=="Salariat" && isLocal=="1" && dsr<=1.0);
+    then
+        //actions
+        cOut.setRate(2.0);
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setReturnCode("P_Rate_012");
+        cOut.setSubProductCode("Salariat2.0");
+end
+
+ rule "ProductRate_Salariat_2.40"
+          ruleflow-group "auditProductRate"
+          salience 88
+    when
+        //conditions
+         cOut:ProductRateOut();
+         cExt:ProductRateIn(productCode=="Salariat" && (isDivorce=="1" || (age<=25  || age>=50)));
+    then
+        //actions
+        cOut.setRate(2.4);
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setReturnCode("P_Rate_011");
+        cOut.setSubProductCode("Salariat2.4");
+end
+
+//TYSalariat
+  rule "ProductRate_TYSalariat_2.20"
+          ruleflow-group "auditProductRate"
+          salience 87
+    when
+        //conditions
+         cOut:ProductRateOut();
+         cExt:ProductRateIn(productCode=="TYSalariat" );
+    then
+        //actions
+        cOut.setRate(2.2);
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setReturnCode("P_Rate_013");
+        cOut.setSubProductCode("TYSalariat2.2");
+end
+
+ rule "ProductRate_TYSalariat_2.00"
+          ruleflow-group "auditProductRate"
+          salience 86
+    when
+        //conditions
+         cOut:ProductRateOut();
+         cExt:ProductRateIn(productCode=="TYSalariat" && isLocal=="1" && dsr<=1.0);
+    then
+        //actions
+        cOut.setRate(2.0);
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setReturnCode("P_Rate_015");
+        cOut.setSubProductCode("TYSalariat2.0");
+end
+
+ rule "ProductRate_TYSalariat_2.40"
+          ruleflow-group "auditProductRate"
+          salience 85
+    when
+        //conditions
+         cOut:ProductRateOut();
+         cExt:ProductRateIn(productCode=="TYSalariat" && (isDivorce=="1" || (age<=25  || age>=50)));
+    then
+        //actions
+        cOut.setRate(2.4);
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setReturnCode("P_Rate_014");
+        cOut.setSubProductCode("TYSalariat2.4");
+end
+
+//TYElite
+  rule "ProductRate_TYElite_2.20"
+          ruleflow-group "auditProductRate"
+          salience 84
+    when
+        //conditions
+         cOut:ProductRateOut();
+         cExt:ProductRateIn(productCode=="TYElite" );
+    then
+        //actions
+        cOut.setRate(2.2);
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setReturnCode("P_Rate_016");
+        cOut.setSubProductCode("TYElite2.2");
+end
+
+ rule "ProductRate_TYElite_2.00"
+          ruleflow-group "auditProductRate"
+          salience 83
+    when
+        //conditions
+         cOut:ProductRateOut();
+         cExt:ProductRateIn(productCode=="TYElite" && isLocal=="1" && dsr<=1.0);
+    then
+        //actions
+        cOut.setRate(2.0);
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setReturnCode("P_Rate_018");
+        cOut.setSubProductCode("TYElite2.0");
+end
+
+ rule "ProductRate_TYElite_2.40"
+          ruleflow-group "auditProductRate"
+          salience 82
+    when
+        //conditions
+         cOut:ProductRateOut();
+         cExt:ProductRateIn(productCode=="TYElite" && (isDivorce=="1" || (age<=25  || age>=50)));
+    then
+        //actions
+        cOut.setRate(2.4);
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setReturnCode("P_Rate_017");
+        cOut.setSubProductCode("TYElite2.4");
+end
+
+ //Efangtong
+  rule "ProductRate_Efangtong_2.20"
+          ruleflow-group "auditProductRate"
+          salience 81
+    when
+        //conditions
+         cOut:ProductRateOut();
+         cExt:ProductRateIn(productCode=="Efangtong" );
+    then
+        //actions
+        cOut.setRate(2.2);
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setReturnCode("P_Rate_019");
+        cOut.setSubProductCode("Efangtong2.2");
+end
+
+ rule "ProductRate_Efangtong_2.00"
+          ruleflow-group "auditProductRate"
+          salience 80
+    when
+        //conditions
+         cOut:ProductRateOut();
+         cExt:ProductRateIn(productCode=="Efangtong" && isLocal=="1" && dsr<=1.0);
+    then
+        //actions
+        cOut.setRate(2.0);
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setReturnCode("P_Rate_021");
+        cOut.setSubProductCode("Efangtong2.0");
+end
+
+ rule "ProductRate_Efangtong_2.40"
+          ruleflow-group "auditProductRate"
+          salience 79
+    when
+        //conditions
+         cOut:ProductRateOut();
+         cExt:ProductRateIn(productCode=="Efangtong" && (isDivorce=="1" || (age<=25  || age>=50)));
+    then
+        //actions
+        cOut.setRate(2.4);
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setReturnCode("P_Rate_020");
+        cOut.setSubProductCode("Efangtong2.4");
+end
+
+ //Ebaotong
+  rule "ProductRate_Ebaotong_2.20"
+          ruleflow-group "auditProductRate"
+          salience 78
+    when
+        //conditions
+         cOut:ProductRateOut();
+         cExt:ProductRateIn(productCode=="Ebaotong" );
+    then
+        //actions
+        cOut.setRate(2.2);
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setReturnCode("P_Rate_022");
+        cOut.setSubProductCode("Ebaotong2.2");
+end
+
+ rule "ProductRate_Ebaotong_2.00"
+          ruleflow-group "auditProductRate"
+          salience 77
+    when
+        //conditions
+         cOut:ProductRateOut();
+         cExt:ProductRateIn(productCode=="Ebaotong" && isLocal=="1" && dsr<=1.0);
+    then
+        //actions
+        cOut.setRate(2.0);
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setReturnCode("P_Rate_024");
+        cOut.setSubProductCode("Ebaotong2.0");
+end
+
+ rule "ProductRate_Ebaotong_2.40"
+          ruleflow-group "auditProductRate"
+          salience 76
+    when
+        //conditions
+         cOut:ProductRateOut();
+         cExt:ProductRateIn(productCode=="Ebaotong" && (isDivorce=="1" || (age<=25  || age>=50)));
+    then
+        //actions
+        cOut.setRate(2.4);
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setReturnCode("P_Rate_023");
+        cOut.setSubProductCode("Ebaotong2.4");
+end

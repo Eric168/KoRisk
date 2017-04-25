@@ -1,0 +1,21 @@
+//created on: 2016-5-16
+package SimpleCreditInfoRules
+
+//list any import classes here.
+import com.madai.model.approval.CreditBusiness.CreditBusinessResult;
+import com.madai.model.approval.CreditBusiness.CreditParticular;
+
+//declare any global variables here
+
+//排除销户时间大于24个月的人民币贷记卡的记录
+//::1
+ rule "update_CBRT_One"
+      ruleflow-group "updateTransferOne"
+      no-loop true
+    when
+        //conditions
+        CBRT:CreditBusinessResult();
+    then
+        //actions
+        update(CBRT);
+    end 

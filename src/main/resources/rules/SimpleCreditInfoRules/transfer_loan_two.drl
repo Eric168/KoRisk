@@ -1,0 +1,46 @@
+//created on: 2016-05-16
+package SimpleCreditInfoRules
+
+import com.madai.model.approval.CreditBusiness.CreditBusinessResult;
+import com.madai.model.approval.CreditBusiness.CreditParticular;
+//list any import classes here.
+
+
+  //loanPastdueMore90More02YearMore02Count
+rule "loanPastdueMore90More02YearMore02Count"
+      ruleflow-group "transfer_loan_two"
+    when
+        //conditions
+        CBRT:CreditBusinessResult();
+        CBTR:CreditParticular(busiType=="LOAN" && loanOpenMonths()>24 && pastdueM3By60Cnt>= 2 && afterLoanNewRecordFlag=="0"  ) from CBRT.loanCutPayMore24MonthList;
+    then
+        //actions
+        CBRT.setLoanPastdueMore90More02YearMore02Count(CBRT.getLoanPastdueMore90More02YearMore02Count()+1);
+ end 
+ 
+   //loanNongHuAppearNowLoanCount
+rule "loanNongHuAppearNowLoanCount"
+      ruleflow-group "transfer_loan_two"
+    when
+        //conditions
+        CBRT:CreditBusinessResult();
+        CBTR:CreditParticular(loanProperty=="05") from CBRT.loanCutPayMore24MonthList;
+    then
+        //actions
+        CBRT.setLoanNongHuAppearNowLoanCount(CBRT.getLoanNongHuAppearNowLoanCount()+1);
+ end 
+ 
+
+ 
+//loanRecordCutPay24MTotalCount
+rule "loanRecordCutPay24MTotalCount" 
+      ruleflow-group "transfer_loan_two"
+    when
+        //conditions
+        CBRT:CreditBusinessResult();
+        CBTR:CreditParticular(busiType=="LOAN") from CBRT.loanCutPayMore24MonthList;
+    then
+        //actions
+        CBRT.setLoanRecordCutPay24MTotalCount(CBRT.getLoanRecordCutPay24MTotalCount()+1);
+ end 
+ 

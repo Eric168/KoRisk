@@ -1,0 +1,84 @@
+/*created time 2016-4-22
+  @auther xiaoling 
+ **/
+
+
+package CreditLine
+
+
+
+import com.madai.model.approval.CreditLine.CreditLineIn;
+import com.madai.model.approval.CreditLine.CreditLineOut;
+//list any import classes here.
+
+
+//declare any global variables here
+
+
+rule "EWTBase_Line_EWT00140"
+    ruleflow-group "EWTDsrMoreOneAndSalaryNAAndLess"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(middleCode=="EWT_0013" );
+         cOut:CreditLineOut();  
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(-1);
+        cOut.setAmount(cExt.getIncome()*(-1));
+        cOut.setReturnCode("Line_EWT00140");  
+        update(cOut);    
+end
+
+rule "EWTBase_Line_EWT00141"
+    ruleflow-group "EWTDsrMoreOneAndSalaryNAAndLess"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(middleCode=="EWT_0014" );
+         cOut:CreditLineOut();  
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(-1);
+        cOut.setAmount(cExt.getIncome()*(-1));
+        cOut.setReturnCode("Line_EWT00141"); 
+        update(cOut);     
+end
+
+rule "EWTBase_Line_EWT00142"
+    ruleflow-group "EWTDsrMoreOneAndSalaryNAAndLess"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(middleCode=="EWT_0015" );
+         cOut:CreditLineOut();  
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(-1);
+        cOut.setAmount(cExt.getIncome()*(-1));
+        cOut.setReturnCode("Line_EWT00142");  
+        update(cOut);    
+end
+
+rule "EWTBase_Line_EWT00143"
+    ruleflow-group "EWTDsrMoreOneAndSalaryNAAndLess"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(middleCode=="EWT_0016" );
+         cOut:CreditLineOut();  
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(-1);
+        cOut.setAmount(cExt.getIncome()*(-1));
+        cOut.setReturnCode("Line_EWT00143"); 
+        update(cOut);    
+end

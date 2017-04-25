@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<process xmlns="http://drools.org/drools-5.0/process"
+         xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+         xs:schemaLocation="http://drools.org/drools-5.0/process drools-processes-5.0.xsd"
+         type="RuleFlow" name="refuseOrWarnsFlow" id="com.ts8.refuseOrWarnsFlow" package-name="SimpleCreditInfoRules" >
+
+  <header>
+  </header>
+
+  <nodes>
+    <ruleSet id="17" name="updateTransferOne" x="341" y="387" width="186" height="48" ruleFlowGroup="updateTransferOne" />
+    <start id="1" name="Start" x="397" y="9" width="48" height="48" />
+    <ruleSet id="19" name="transfer_loan_two" x="52" y="562" width="133" height="48" ruleFlowGroup="transfer_loan_two" />
+    <split id="18" name="Gateway" x="413" y="464" width="49" height="49" type="3" >
+      <metaData name="UniqueId">
+        <value>_jbpm-unique-132</value>
+      </metaData>
+      <constraints>
+        <constraint toNodeId="13" toType="DROOLS_DEFAULT" name="white" priority="1" type="rule" dialect="mvel" >eval(true)</constraint>
+        <constraint toNodeId="19" toType="DROOLS_DEFAULT" name="loan_two" priority="1" type="rule" dialect="mvel" >eval(true)</constraint>
+        <constraint toNodeId="20" toType="DROOLS_DEFAULT" name="credit_two" priority="1" type="rule" dialect="mvel" >eval(true)</constraint>
+      </constraints>
+    </split>
+    <ruleSet id="20" name="transfer_credit_two" x="380" y="571" width="126" height="48" ruleFlowGroup="transfer_credit_two" />
+    <ruleSet id="23" name="updateTransferTwo" x="338" y="754" width="216" height="48" ruleFlowGroup="updateTransferTwo" />
+    <join id="22" name="Gateway" x="423" y="656" width="49" height="49" type="1" />
+    <ruleSet id="9" name="refuseOrWarns" x="384" y="850" width="137" height="47" ruleFlowGroup="refuse_warn" />
+    <end id="10" name="End" x="431" y="938" width="74" height="22" />
+    <ruleSet id="11" name="transfer_loan_one" x="140" y="197" width="135" height="48" ruleFlowGroup="transfer_loan_one" />
+    <ruleSet id="12" name="transfer_credit_one" x="564" y="183" width="137" height="48" ruleFlowGroup="transfer_credit_one" />
+    <ruleSet id="13" name="transfer_white" x="592" y="555" width="158" height="48" ruleFlowGroup="transfer_white" />
+    <split id="14" name="Gateway" x="399" y="109" width="49" height="49" type="3" >
+      <metaData name="UniqueId">
+        <value>_jbpm-unique-155</value>
+      </metaData>
+      <constraints>
+        <constraint toNodeId="12" toType="DROOLS_DEFAULT" name="credit" priority="1" type="rule" dialect="mvel" >eval(true)</constraint>
+        <constraint toNodeId="11" toType="DROOLS_DEFAULT" name="loan" priority="1" type="rule" dialect="java" >eval(true)</constraint>
+      </constraints>
+    </split>
+    <join id="15" name="Gateway" x="408" y="305" width="49" height="49" type="1" />
+  </nodes>
+
+  <connections>
+    <connection from="15" to="17" />
+    <connection from="18" to="19" />
+    <connection from="17" to="18" />
+    <connection from="18" to="20" />
+    <connection from="22" to="23" />
+    <connection from="20" to="22" />
+    <connection from="13" to="22" />
+    <connection from="19" to="22" />
+    <connection from="23" to="9" />
+    <connection from="9" to="10" />
+    <connection from="14" to="11" />
+    <connection from="14" to="12" />
+    <connection from="18" to="13" />
+    <connection from="1" to="14" />
+    <connection from="11" to="15" />
+    <connection from="12" to="15" />
+  </connections>
+
+</process>

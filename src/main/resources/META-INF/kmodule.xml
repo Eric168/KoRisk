@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kmodule xmlns="http://jboss.org/kie/6.0.0/kmodule">
+    <kbase name="rules-simple" packages="rules.simple">
+        <ksession name="ksession-rules-simple"/>
+    </kbase>
+     <kbase name="rules-SimpleCreditInfoRules" packages="rules.SimpleCreditInfoRules">
+        <ksession name="ksession-rules-SimpleCreditInfoRules"/>
+    </kbase>
+     <kbase name="rules-RegisterInformRule" packages="rules.SimpleCreditInfoRules.RegisterInformRule">
+        <ksession name="ksession-rules-RegisterInformRule"/>
+    </kbase>
+    <kbase name="rules-AutoAuditOne" packages="rules.CreditScoreAutoAudit">
+        <ksession name="ksession-rules-AutoAuditOne"/>
+    </kbase>
+    <kbase name="rules-ProductRate" packages="rules.CreditScoreAutoAudit.ProductRate">
+        <ksession name="ksession-rules-ProductRate"/>
+    </kbase>
+    <kbase name="rules-CreditLine" packages="rules.CreditScoreAutoAudit.CreditLine">
+        <ksession name="ksession-rules-CreditLine"/>
+    </kbase>
+</kmodule>

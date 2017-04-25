@@ -1,0 +1,39 @@
+//created on: 2016-1-8
+package myrules
+
+import com.sample.model.Employ;
+//list any import classes here.
+
+
+
+//declare any global variables here
+
+
+
+
+rule "Excellent"
+      ruleflow-group "bonus_salary"
+    when
+        //conditions
+        emp:Employ(bonus=="excellent")
+    then
+        //actions
+        System.out.println("exec rule Excellent!");
+        emp.setBonusSalary(1000*1.0);
+
+end
+
+rule "Good"
+    //include attributes such as "salience" here...
+     ruleflow-group "bonus_salary"
+   when
+        //conditions
+        emp:Employ(bonus=="good")
+    then
+        //actions
+        System.out.println("exec rule Good!");
+        emp.setBonusSalary(1000*0.9);
+
+end
+
+

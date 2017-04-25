@@ -1,0 +1,58 @@
+//created on: 2016-5-16
+package SimpleCreditInfoRules
+
+//list any import classes here.
+import com.madai.model.approval.CreditBusiness.CreditBusinessResult;
+import com.madai.model.approval.CreditBusiness.CreditParticular;
+
+//declare any global variables here
+
+//排除销户时间大于24个月的人民币贷记卡的记录
+//::1
+rule "creditCardCutPayMore24MonthList"
+	ruleflow-group "transfer_credit_one"
+	salience 999
+    when
+        CBRT:CreditBusinessResult();
+        CBTR:CreditParticular(!(subBusiType=="贷记卡" && busiType=="CREDIT_CARD" && acctStatus=="14"  && cardAccountClosedMonths() > 24 && currencyType == "人民币")) from CBRT.creditParticularList;
+    then
+        CBRT.getCreditCardCutPayMore24MonthList().add(CBTR);
+end
+
+//排除销户时间大于24个月的人民币准贷记卡的记录
+//::2
+rule "semiCreditCardCutPayMore24MonthList"
+	ruleflow-group "transfer_credit_one"
+	salience 998
+    when
+       CBRT:CreditBusinessResult();
+        CBTR:CreditParticular(!(busiType=="CREDIT_CARD" && subBusiType=="准贷记卡"  && acctStatus=="14" &&  cardAccountClosedMonths() > 24 && currencyType == "人民币")) from CBRT.creditParticularList;
+    then
+        CBRT.getSemiCreditCardCutPayMore24MonthList().add(CBTR);
+end
+
+//贷记卡总记录数
+//::3
+rule "creditCardRecordTotalCount"
+	ruleflow-group "transfer_credit_one"
+	salience 997
+    when
+		CBRT:CreditBusinessResult();
+        CBTR:CreditParticular(busiType=="CREDIT_CARD" && subBusiType=="贷记卡") from CBRT.creditParticularList;
+    then
+        CBRT.setCreditCardRecordTotalCount(CBRT.getCreditCardRecordTotalCount() + 1);
+end
+
+//排除销户时间大于24个月的人民币贷记卡的总记录数
+//::4
+rule "creditCardCutPayMore24MonthTotalCount"
+	ruleflow-group "transfer_credit_one"
+	salience 996
+    when
+        CBRT:CreditBusinessResult();
+        CBTR:CreditParticular(subBusiType=="贷记卡" && !( acctStatus=="14"  && cardAccountClosedMonths() > 24 && currencyType == "人民币")) from CBRT.creditParticularList;
+    then
+        CBRT.setCreditCardCutPayMore24MonthTotalCount(CBRT.getCreditCardCutPayMore24MonthTotalCount() + 1);
+end
+
+

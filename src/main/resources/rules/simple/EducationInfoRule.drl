@@ -1,0 +1,37 @@
+//created on: 2016-1-8
+package myrules
+
+import com.sample.model.Employ;
+//list any import classes here.
+
+
+
+//declare any global variables here
+
+
+
+
+rule "Bachelor"
+      ruleflow-group "basic_salary"
+    when
+        //conditions
+        emp:Employ(educationInfo=="bachelor")
+    then
+        //actions
+        System.out.println("exec rule Bachelor!");
+        emp.setBasicSalary(1500);
+
+end
+
+rule "Master"
+    //include attributes such as "salience" here...
+     ruleflow-group "basic_salary"
+   when
+        //conditions
+        emp:Employ(educationInfo=="master")
+    then
+        //actions
+        System.out.println("exec rule Master!");
+        emp.setBasicSalary(2500);
+
+end

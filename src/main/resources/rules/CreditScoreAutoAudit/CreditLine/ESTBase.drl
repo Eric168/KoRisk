@@ -1,0 +1,273 @@
+/*created time 2016-4-21
+  @auther xiaoling 
+ **/
+
+
+package CreditLine
+
+
+
+import com.madai.model.approval.CreditLine.CreditLineIn;
+import com.madai.model.approval.CreditLine.CreditLineOut;
+//list any import classes here.
+
+
+//declare any global variables here
+
+rule "ESTBase_EST_0001"
+    ruleflow-group "ESTBase"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(isLocal=="1"  &&  isFemale=="1" && isHasHouse=="1" && age>=30 && age<=45);
+         cOut:CreditLineOut();  
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(10);
+        cOut.setAmount(cExt.getBase()*10);
+        cExt.setMiddleCode("EST_0001"); 
+        update(cExt);
+end
+rule "ESTBase_EST_0002"
+    ruleflow-group "ESTBase"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(isLocal=="1" && isFemale=="1" && isHasHouse=="1" && (age<30||age>45));
+         cOut:CreditLineOut();  
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(9);
+        cOut.setAmount(cExt.getBase()*9);
+        cExt.setMiddleCode("EST_0002");  
+        update(cExt);    
+end
+rule "ESTBase_EST_0003"
+    ruleflow-group "ESTBase"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(isLocal=="1" && isFemale=="0" && isHasHouse=="1" && age>=30 && age<=45);
+         cOut:CreditLineOut();    
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(9);
+        cOut.setAmount(cExt.getBase()*9);
+        cExt.setMiddleCode("EST_0003"); 
+        update(cExt);      
+end
+rule "ESTBase_EST_0004"
+    ruleflow-group "ESTBase"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(isLocal=="0" && isFemale=="0" && isHasHouse=="1" && age>=30 && age<=45);
+         cOut:CreditLineOut();    
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(8.5); 
+        cOut.setAmount(cExt.getBase()*8.5);
+        cExt.setMiddleCode("EST_0004");  
+        update(cExt);  
+end
+rule "ESTBase_EST_0005"
+    ruleflow-group "ESTBase"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(isLocal=="1" && isFemale=="0" && isHasHouse=="1" && (age<30||age>45));
+         cOut:CreditLineOut();    
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(8.5); 
+        cOut.setAmount(cExt.getBase()*8.5);
+        cExt.setMiddleCode("EST_0005");  
+        update(cExt);   
+end
+rule "ESTBase_EST_0006"
+    ruleflow-group "ESTBase"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(isLocal=="0" && isFemale=="1" && isHasHouse=="1" && age>=30 && age<=45);
+         cOut:CreditLineOut();    
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(8.5);
+        cOut.setAmount(cExt.getBase()*8.5); 
+        cExt.setMiddleCode("EST_0006");  
+        update(cExt);        
+end
+rule "ESTBase_EST_0007"
+    ruleflow-group "ESTBase"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(isLocal=="1" && isFemale=="1" && isHasHouse=="0" && (age<30||age>45));
+         cOut:CreditLineOut();    
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(8);
+        cOut.setAmount(cExt.getBase()*8);
+        cExt.setMiddleCode("EST_0007");   
+        update(cExt);   
+end
+rule "ESTBase_EST_0008"
+    ruleflow-group "ESTBase"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(isLocal=="1" && isFemale=="0" && isHasHouse=="0" && age>=30 && age<=45);
+         cOut:CreditLineOut();    
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(8); 
+        cOut.setAmount(cExt.getBase()*8);
+        cExt.setMiddleCode("EST_0008");  
+        update(cExt);   
+end
+rule "ESTBase_EST_0009"
+    ruleflow-group "ESTBase"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(isLocal=="0" && isFemale=="1" && isHasHouse=="1" && (age<30||age>45));
+         cOut:CreditLineOut();    
+    then
+        //actions       
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(8);
+        cOut.setAmount(cExt.getBase()*8);
+        cExt.setMiddleCode("EST_0009");  
+        update(cExt);     
+end
+rule "ESTBase_EST_0010"
+    ruleflow-group "ESTBase"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(isLocal=="1" && isFemale=="0" && isHasHouse=="0" && (age<30||age>45));
+         cOut:CreditLineOut();    
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(8);
+        cOut.setAmount(cExt.getBase()*8);
+        cExt.setMiddleCode("EST_0010");   
+        update(cExt);     
+end
+rule "ESTBase_EST_0011"
+    ruleflow-group "ESTBase"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(isLocal=="0" && isFemale=="0" && isHasHouse=="1" && (age<30||age>45));
+         cOut:CreditLineOut();    
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(8); 
+        cOut.setAmount(cExt.getBase()*8);
+        cExt.setMiddleCode("EST_0011");   
+        update(cExt);  
+end
+rule "ESTBase_EST_0012"
+    ruleflow-group "ESTBase"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(isLocal=="1" && isFemale=="1" && isHasHouse=="0" && age>=30 && age<=45);
+         cOut:CreditLineOut();    
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(8); 
+        cOut.setAmount(cExt.getBase()*8);
+        cExt.setMiddleCode("EST_0012");   
+        update(cExt);  
+end
+rule "ESTBase_EST_0013"
+    ruleflow-group "ESTBase"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(isLocal=="0" && isFemale=="0" && isHasHouse=="0" && (age<30||age>45));
+         cOut:CreditLineOut();    
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(7.5); 
+        cOut.setAmount(cExt.getBase()*7.5);
+        cExt.setMiddleCode("EST_0013"); 
+        update(cExt);    
+end
+rule "ESTBase_EST_0014"
+    ruleflow-group "ESTBase"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(isLocal=="0" && isFemale=="1" && isHasHouse=="0" && age>=30 && age<=45);
+         cOut:CreditLineOut();    
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(7.5); 
+        cOut.setAmount(cExt.getBase()*7.5);
+        cExt.setMiddleCode("EST_0014");   
+        update(cExt);   
+end
+rule "ESTBase_EST_0015"
+    ruleflow-group "ESTBase"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(isLocal=="0" && isFemale=="1" && isHasHouse=="0" && (age<30||age>45));
+         cOut:CreditLineOut();    
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(7.5);
+        cOut.setAmount(cExt.getBase()*7.5);
+        cExt.setMiddleCode("EST_0015"); 
+        update(cExt);
+    
+end
+rule "ESTBase_EST_0016"
+    ruleflow-group "ESTBase"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(isLocal=="0" && isFemale=="0" && isHasHouse=="0" && age>=30 && age<=45);
+         cOut:CreditLineOut();    
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(7.5); 
+        cOut.setAmount(cExt.getBase()*7.5);
+        cExt.setMiddleCode("EST_0016"); 
+        update(cExt);     
+end

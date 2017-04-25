@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<process xmlns="http://drools.org/drools-5.0/process"
+         xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+         xs:schemaLocation="http://drools.org/drools-5.0/process drools-processes-5.0.xsd"
+         type="RuleFlow" name="CreditLine" id="CreditScoreAutoAudit.CreditLineFlow" package-name="creditLine" >
+
+  <header>
+    <imports>
+      <import name="com.madai.model.approval.CreditLine.CreditLineIn" />
+    </imports>
+  </header>
+
+  <nodes>
+    <start id="1" name="Start" x="894" y="-7" width="48" height="48" />
+    <split id="5" name="Gateway" x="893" y="61" width="49" height="49" type="2" >
+      <metaData name="UniqueId">
+        <value>_jbpm-unique-1231</value>
+      </metaData>
+      <constraints>
+        <constraint toNodeId="7" toType="DROOLS_DEFAULT" name="isEST" priority="2" type="rule" dialect="java" >cIn:CreditLineIn(productCode=='Eshetong')</constraint>
+        <constraint toNodeId="11" toType="DROOLS_DEFAULT" name="isEWT" priority="3" type="rule" dialect="java" >cIn:CreditLineIn(productCode=='Ewangtong')</constraint>
+        <constraint toNodeId="72" toType="DROOLS_DEFAULT" name="isEDTAndTydEDTAndTydUDT" priority="5" type="rule" dialect="java" >cIn:CreditLineIn(productCode=='Salariat' || productCode=='TYSalariat' || productCode=='TYElite'||productCode=='Ebaotong' || productCode=='Efangtong')</constraint>
+        <constraint toNodeId="6" toType="DROOLS_DEFAULT" name="isUDT" priority="1" type="rule" dialect="java" >cIn:CreditLineIn(productCode=='Elite')</constraint>
+      </constraints>
+    </split>
+    <ruleSet id="6" name="UDTBase" x="186" y="182" width="158" height="58" ruleFlowGroup="UDTBase" />
+    <ruleSet id="7" name="ESTBase" x="847" y="151" width="144" height="56" ruleFlowGroup="ESTBase" />
+    <ruleSet id="11" name="EWTBase" x="2160" y="140" width="130" height="48" ruleFlowGroup="EWTBase" />
+    <ruleSet id="13" name="UDTQueryTimesLess5" x="58" y="386" width="135" height="56" ruleFlowGroup="UDTQueryTimesLess5" />
+    <ruleSet id="21" name="UDTQueryTimesMore5" x="296" y="369" width="150" height="54" ruleFlowGroup="UDTQueryTimesMore5" />
+    <split id="20" name="Gateway" x="239" y="287" width="49" height="49" type="2" >
+      <metaData name="UniqueId">
+        <value>_jbpm-unique-200</value>
+      </metaData>
+      <constraints>
+        <constraint toNodeId="13" toType="DROOLS_DEFAULT" name="queryTimesless5" priority="1" type="rule" dialect="java" >cIn:CreditLineIn(lastMonthCreditQueryTimes&lt;=5)</constraint>
+        <constraint toNodeId="21" toType="DROOLS_DEFAULT" name="queryTimesMore5" priority="2" type="rule" dialect="java" >cIn:CreditLineIn(lastMonthCreditQueryTimes&gt;5)</constraint>
+      </constraints>
+    </split>
+    <join id="23" name="Gateway" x="351" y="658" width="49" height="49" type="2" />
+    <split id="24" name="Gateway" x="899" y="234" width="49" height="49" type="2" >
+      <metaData name="UniqueId">
+        <value>_jbpm-unique-202</value>
+      </metaData>
+      <constraints>
+        <constraint toNodeId="52" toType="DROOLS_DEFAULT" name="queryTimesMore5" priority="2" type="rule" dialect="java" >cIn:CreditLineIn(lastMonthCreditQueryTimes&gt;5)</constraint>
+        <constraint toNodeId="51" toType="DROOLS_DEFAULT" name="queryTimesLess5" priority="1" type="rule" dialect="java" >cIn:CreditLineIn(lastMonthCreditQueryTimes&lt;=5)</constraint>
+      </constraints>
+    </split>
+    <split id="29" name="Gateway" x="2205" y="224" width="49" height="49" type="2" >
+      <metaData name="UniqueId">
+        <value>_jbpm-unique-203</value>
+      </metaData>
+      <constraints>
+        <constraint toNodeId="57" toType="DROOLS_DEFAULT" name="queryTimesMore5" priority="1" type="rule" dialect="java" >cIn:CreditLineIn(lastMonthCreditQueryTimes&gt;5)</constraint>
+        <constraint toNodeId="56" toType="DROOLS_DEFAULT" name="queryTimesLess5" priority="2" type="rule" dialect="java" >cIn:CreditLineIn(lastMonthCreditQueryTimes&lt;=5)</constraint>
+      </constraints>
+    </split>
+    <join id="35" name="Gateway" x="1776" y="671" width="49" height="49" type="1" />
+    <end id="38" name="End" x="853" y="1031" width="48" height="48" />
+    <ruleSet id="39" name="ESTDsrLess100AndLess5" x="416" y="434" width="120" height="48" ruleFlowGroup="ESTDsrLess100AndLess5" />
+    <ruleSet id="43" name="ESTDsrMore75AndLess5" x="916" y="404" width="116" height="48" ruleFlowGroup="ESTDsrMore75AndLess5" />
+    <ruleSet id="40" name="ESTDsrLess75AndLess5" x="553" y="505" width="124" height="48" ruleFlowGroup="ESTDsrLess75AndLess5" />
+    <split id="41" name="Gateway" x="686" y="373" width="49" height="49" type="3" >
+      <metaData name="UniqueId">
+        <value>_jbpm-unique-212</value>
+      </metaData>
+      <constraints>
+        <constraint toNodeId="71" toType="DROOLS_DEFAULT" name="dsrMore100AndLess5" priority="1" type="rule" dialect="java" >cIn:CreditLineIn(dsr&gt;1.0)</constraint>
+        <constraint toNodeId="39" toType="DROOLS_DEFAULT" name="dsrLess100AndLess5" priority="1" type="rule" dialect="java" >cIn:CreditLineIn(dsr&lt;=1.0)</constraint>
+        <constraint toNodeId="40" toType="DROOLS_DEFAULT" name="dsrLess75AndLess5" priority="4" type="rule" dialect="java" >cIn:CreditLineIn(dsr&lt;=0.75)</constraint>
+        <constraint toNodeId="43" toType="DROOLS_DEFAULT" name="dsrMore75AndLess5" priority="3" type="rule" dialect="java" >cIn:CreditLineIn(dsr&gt;0.75)</constraint>
+      </constraints>
+    </split>
+    <ruleSet id="46" name="ESTDsrMore75AndMore5" x="985" y="536" width="123" height="48" ruleFlowGroup="ESTDsrMore75AndMore5" />
+    <ruleSet id="47" name="ESTDsrLess100AndMore5" x="1159" y="558" width="128" height="48" ruleFlowGroup="ESTDsrLess100AndMore5" />
+    <split id="44" name="Gateway" x="1124" y="380" width="49" height="49" type="3" >
+      <metaData name="UniqueId">
+        <value>_jbpm-unique-215</value>
+      </metaData>
+      <constraints>
+        <constraint toNodeId="48" toType="DROOLS_DEFAULT" name="dsrLess75AndMore5" priority="4" type="rule" dialect="java" >cIn:CreditLineIn(dsr&lt;=0.75)</constraint>
+        <constraint toNodeId="47" toType="DROOLS_DEFAULT" name="dsrLess100AndMore5" priority="2" type="rule" dialect="java" >cIn:CreditLineIn(dsr&lt;=1.0)</constraint>
+        <constraint toNodeId="45" toType="DROOLS_DEFAULT" name="dsrMore100AndMore5" priority="3" type="rule" dialect="java" >cIn:CreditLineIn(dsr&gt;1.0)</constraint>
+        <constraint toNodeId="46" toType="DROOLS_DEFAULT" name="dsrMore75AndMore5" priority="1" type="rule" dialect="java" >cIn:CreditLineIn(dsr&gt;0.75)</constraint>
+      </constraints>
+    </split>
+    <ruleSet id="45" name="ESTDsrMore100AndMore5" x="822" y="624" width="129" height="48" ruleFlowGroup="ESTDsrMore100AndMore5" />
+    <ruleSet id="51" name="ESTQueryTimesLess5" x="623" y="312" width="173" height="48" ruleFlowGroup="ESTQueryTimesLess5" />
+    <join id="50" name="Gateway" x="1105" y="650" width="49" height="49" type="1" />
+    <join id="49" name="Gateway" x="682" y="603" width="49" height="49" type="1" />
+    <ruleSet id="48" name="ESTDsrLess75AndMore5" x="1312" y="596" width="135" height="48" ruleFlowGroup="ESTDsrLess75AndMore5" />
+    <split id="55" name="Gateway" x="345" y="464" width="49" height="49" type="2" >
+      <metaData name="UniqueId">
+        <value>_jbpm-unique-221</value>
+      </metaData>
+      <constraints>
+        <constraint toNodeId="54" toType="DROOLS_DEFAULT" name="dsrMoreOne" priority="1" type="rule" dialect="java" >cIn:CreditLineIn(dsr&gt;1.5)</constraint>
+        <constraint toNodeId="53" toType="DROOLS_DEFAULT" name="dsrLessOne" priority="2" type="rule" dialect="java" >cIn:CreditLineIn(dsr&lt;=1.5)</constraint>
+      </constraints>
+    </split>
+    <ruleSet id="54" name="UDTDsrMoreOne" x="401" y="555" width="145" height="48" ruleFlowGroup="UDTDsrMoreOne" />
+    <ruleSet id="53" name="UDTDsrLessOne" x="233" y="550" width="141" height="48" ruleFlowGroup="UDTDsrLessOne" />
+    <ruleSet id="52" name="ESTQueryTimesMore5" x="1061" y="286" width="168" height="44" ruleFlowGroup="ESTQueryTimesMore5" />
+    <split id="59" name="Gateway" x="2502" y="416" width="49" height="49" type="2" >
+      <metaData name="UniqueId">
+        <value>_jbpm-unique-225</value>
+      </metaData>
+      <constraints>
+        <constraint toNodeId="66" toType="DROOLS_DEFAULT" name="dsrLessAndTimesMore" priority="2" type="rule" dialect="java" >cIn:CreditLineIn(dsr&lt;=0.75)</constraint>
+        <constraint toNodeId="68" toType="DROOLS_DEFAULT" name="dsrMoreAndTimesMore" priority="1" type="rule" dialect="java" >cIn:CreditLineIn(dsr&gt;0.75)</constraint>
+      </constraints>
+    </split>
+    <split id="58" name="Gateway" x="1779" y="363" width="49" height="49" type="3" >
+      <metaData name="UniqueId">
+        <value>_jbpm-unique-226</value>
+      </metaData>
+      <constraints>
+        <constraint toNodeId="63" toType="DROOLS_DEFAULT" name="dsrLess100AndSalaryLess3000" priority="7" type="rule" dialect="java" >cIn:CreditLineIn(dsr&lt;=1.0 &amp;&amp; salary&lt;3000)</constraint>
+        <constraint toNodeId="80" toType="DROOLS_DEFAULT" name="dsrMore150AndSalaryMore3000" priority="5" type="rule" dialect="java" >cIn:CreditLineIn(dsr&gt;1.5 &amp;&amp; salary&gt;=3000)</constraint>
+        <constraint toNodeId="64" toType="DROOLS_DEFAULT" name="dsrMore100AndSalaryLess3000" priority="8" type="rule" dialect="java" >cIn:CreditLineIn(dsr&gt;1.0 &amp;&amp; salary&lt;3000)</constraint>
+        <constraint toNodeId="79" toType="DROOLS_DEFAULT" name="dsrMore150AndSalaryNA" priority="4" type="rule" dialect="java" >cIn:CreditLineIn(dsr&gt;1.5)</constraint>
+        <constraint toNodeId="81" toType="DROOLS_DEFAULT" name="dsrMore75AndSalaryNA" priority="6" type="rule" dialect="java" >cIn:CreditLineIn(dsr&gt;0.75 )</constraint>
+        <constraint toNodeId="62" toType="DROOLS_DEFAULT" name="dsrLess75AndSalaryNa" priority="3" type="rule" dialect="java" >cIn:CreditLineIn(dsr&lt;=0.75)</constraint>
+        <constraint toNodeId="61" toType="DROOLS_DEFAULT" name="dsrLess150AndSalaryMore3000" priority="2" type="rule" dialect="java" >cIn:CreditLineIn(dsr&lt;=1.5 &amp;&amp; salary&gt;=3000)</constraint>
+        <constraint toNodeId="60" toType="DROOLS_DEFAULT" name="dsrLess150AndSalaryNa" priority="1" type="rule" dialect="java" >cIn:CreditLineIn(dsr&lt;=1.5)</constraint>
+      </constraints>
+    </split>
+    <ruleSet id="57" name="EWTQueryTimesMore5" x="2440" y="302" width="170" height="48" ruleFlowGroup="EWTQueryTimesMore5" />
+    <ruleSet id="56" name="EWTQueryTimesLess5" x="1708" y="298" width="188" height="48" ruleFlowGroup="EWTQueryTimesLess5" />
+    <ruleSet id="63" name="EWTDsrLessTwoAndSalaryLessAndLess" x="2261" y="465" width="131" height="48" ruleFlowGroup="EWTDsrLessTwoAndSalaryLessAndLess" />
+    <ruleSet id="62" name="EWTDsrLessOneAndSalaryNaAndLess" x="1466" y="535" width="134" height="48" ruleFlowGroup="EWTDsrLessOneAndSalaryNaAndLess" />
+    <ruleSet id="61" name="EWTDsrLessThrAndSalaryMoreAndLess" x="1339" y="466" width="135" height="48" ruleFlowGroup="EWTDsrLessThrAndSalaryMoreAndLess" />
+    <ruleSet id="60" name="EWTDsrLessThrAndSalaryNaAndLess" x="1254" y="386" width="166" height="48" ruleFlowGroup="EWTDsrLessThrAndSalaryNaAndLess" />
+    <ruleSet id="68" name="EWTDsrMoreAndTimesMore" x="2608" y="552" width="123" height="48" ruleFlowGroup="EWTDsrMoreAndTimesMore" />
+    <join id="69" name="Gateway" x="2500" y="603" width="49" height="49" type="2" />
+    <ruleSet id="71" name="ESTDsrMore100AndLess5" x="767" y="501" width="117" height="48" ruleFlowGroup="ESTDsrMore100AndLess5" />
+    <ruleSet id="64" name="EWTDsrMoreTwoAndSalaryLessAndLess" x="2224" y="377" width="274" height="48" ruleFlowGroup="EWTDsrMoreTwoAndSalaryLessAndLess" />
+    <ruleSet id="66" name="EWTDsrLessAndTimesMore" x="2325" y="561" width="128" height="48" ruleFlowGroup="EWTDsrLessAndTimesMore" />
+    <join id="76" name="Gateway" x="109" y="656" width="49" height="49" type="2" />
+    <join id="77" name="Gateway" x="244" y="739" width="49" height="49" type="2" />
+    <ruleSet id="79" name="EWTDsrMoreThrAndSalaryNAAndLess" x="1585" y="585" width="129" height="48" ruleFlowGroup="EWTDsrMoreThrAndSalaryNAAndLess" />
+    <ruleSet id="72" name="EDTAndTydEDTAndTydUDT" x="2921" y="486" width="155" height="48" ruleFlowGroup="EDTAndTydEDTAndTydUDT" />
+    <ruleSet id="73" name="UDTDsrLessTwo" x="-42" y="528" width="80" height="48" ruleFlowGroup="UDTDsrLessTwo" />
+    <ruleSet id="74" name="UDTDsrMoreTwo" x="227" y="510" width="78" height="48" ruleFlowGroup="UDTDsrMoreTwo" />
+    <split id="75" name="Gateway" x="101" y="456" width="49" height="49" type="2" >
+      <metaData name="UniqueId">
+        <value>_jbpm-unique-84</value>
+      </metaData>
+      <constraints>
+        <constraint toNodeId="73" toType="DROOLS_DEFAULT" name="DsrLessTwo" priority="1" type="rule" dialect="java" >cIn:CreditLineIn(dsr&lt;=5.0)</constraint>
+        <constraint toNodeId="74" toType="DROOLS_DEFAULT" name="DsrMoreTwo" priority="2" type="rule" dialect="java" >cIn:CreditLineIn(dsr&gt;5.0)</constraint>
+      </constraints>
+    </split>
+    <join id="84" name="Gateway" x="847" y="773" width="49" height="49" type="2" />
+    <ruleSet id="81" name="EWTDsrMoreOneAndSalaryNAAndLess" x="2032" y="587" width="167" height="48" ruleFlowGroup="EWTDsrMoreOneAndSalaryNAAndLess" />
+    <ruleSet id="80" name="EWTDsrMoreThrAndSalaryMoreAndLess" x="1819" y="599" width="129" height="48" ruleFlowGroup="EWTDsrMoreThrAndSalaryMoreAndLess" />
+    <join id="83" name="Gateway" x="2072" y="690" width="49" height="49" type="2" />
+    <join id="82" name="Gateway" x="848" y="942" width="49" height="49" type="2" />
+  </nodes>
+
+  <connections>
+    <connection from="1" to="5" />
+    <connection from="5" to="6" />
+    <connection from="5" to="7" />
+    <connection from="5" to="11" />
+    <connection from="20" to="13" />
+    <connection from="20" to="21" />
+    <connection from="6" to="20" />
+    <connection from="53" to="23" />
+    <connection from="54" to="23" />
+    <connection from="7" to="24" />
+    <connection from="11" to="29" />
+    <connection from="60" to="35" />
+    <connection from="61" to="35" />
+    <connection from="62" to="35" />
+    <connection from="63" to="35" />
+    <connection from="64" to="35" />
+    <connection from="79" to="35" />
+    <connection from="80" to="35" />
+    <connection from="81" to="35" />
+    <connection from="82" to="38" />
+    <connection from="41" to="39" />
+    <connection from="41" to="43" />
+    <connection from="41" to="40" />
+    <connection from="51" to="41" />
+    <connection from="44" to="46" />
+    <connection from="44" to="47" />
+    <connection from="52" to="44" />
+    <connection from="44" to="45" />
+    <connection from="24" to="51" />
+    <connection from="45" to="50" />
+    <connection from="46" to="50" />
+    <connection from="47" to="50" />
+    <connection from="48" to="50" />
+    <connection from="71" to="49" />
+    <connection from="40" to="49" />
+    <connection from="39" to="49" />
+    <connection from="43" to="49" />
+    <connection from="44" to="48" />
+    <connection from="21" to="55" />
+    <connection from="55" to="54" />
+    <connection from="55" to="53" />
+    <connection from="24" to="52" />
+    <connection from="57" to="59" />
+    <connection from="56" to="58" />
+    <connection from="29" to="57" />
+    <connection from="29" to="56" />
+    <connection from="58" to="63" />
+    <connection from="58" to="62" />
+    <connection from="58" to="61" />
+    <connection from="58" to="60" />
+    <connection from="59" to="68" />
+    <connection from="66" to="69" />
+    <connection from="68" to="69" />
+    <connection from="41" to="71" />
+    <connection from="58" to="64" />
+    <connection from="59" to="66" />
+    <connection from="73" to="76" />
+    <connection from="74" to="76" />
+    <connection from="76" to="77" />
+    <connection from="23" to="77" />
+    <connection from="58" to="79" />
+    <connection from="5" to="72" />
+    <connection from="75" to="73" />
+    <connection from="75" to="74" />
+    <connection from="13" to="75" />
+    <connection from="49" to="84" />
+    <connection from="50" to="84" />
+    <connection from="58" to="81" />
+    <connection from="58" to="80" />
+    <connection from="35" to="83" />
+    <connection from="69" to="83" />
+    <connection from="72" to="82" />
+    <connection from="84" to="82" />
+    <connection from="77" to="82" />
+    <connection from="83" to="82" />
+  </connections>
+
+</process>

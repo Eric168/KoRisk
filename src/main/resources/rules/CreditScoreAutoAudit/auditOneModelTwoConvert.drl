@@ -1,0 +1,162 @@
+//created on: 2016-3-18
+package autoAuditOneCreditScore
+
+//list any import classes here.
+import com.madai.model.approval.CreditScoreAutoAuditOneExtendIn;
+import java.lang.Math;
+import java.math.BigDecimal;
+//declare any global variables here
+
+
+rule "sex1_man"
+          ruleflow-group "modelTwoConvert"
+    when
+        //conditions
+         cExt:CreditScoreAutoAuditOneExtendIn(gender=="214");
+    then
+        //actions
+        cExt.setSex1(1);
+end
+
+rule "sex1_woman"
+          ruleflow-group "modelTwoConvert"
+    when
+        //conditions
+         cExt:CreditScoreAutoAuditOneExtendIn(gender=="215");
+    then
+        //actions
+        cExt.setSex1(0);
+end
+
+rule "degree1"
+          ruleflow-group "modelTwoConvert"
+    when
+        //conditions
+         cExt:CreditScoreAutoAuditOneExtendIn(degree in("231","232"));
+    then
+        //actions
+        cExt.setDegree1(1);
+end
+
+rule "org_type1"
+          ruleflow-group "modelTwoConvert"
+    when
+        //conditions
+         cExt:CreditScoreAutoAuditOneExtendIn(companyType in("161"));
+    then
+        //actions
+        cExt.setOrg_type1(1);
+end
+
+rule "org_type2"
+          ruleflow-group "modelTwoConvert"
+    when
+        //conditions
+         cExt:CreditScoreAutoAuditOneExtendIn(companyType in("160"));
+    then
+        //actions
+        cExt.setOrg_type2(1);
+end
+
+rule "citycategory1"
+          ruleflow-group "modelTwoConvert"
+    when
+        //conditions
+         cExt:CreditScoreAutoAuditOneExtendIn(cityCategory in("CL001"));
+    then
+        //actions
+        cExt.setCitycategory1(1);
+end
+
+rule "s2yquery2"
+          ruleflow-group "modelTwoConvert"
+    when
+        //conditions
+         cExt:CreditScoreAutoAuditOneExtendIn(selfQuery24MonthFrequency+orgQuery24MonthFrequency>=10);
+    then
+        //actions
+        cExt.setS2yquery2(1);
+end
+
+rule "cc_in6mopen_num_convert"
+          ruleflow-group "modelTwoConvert"
+          salience 8
+    when
+        //conditions
+         cExt:CreditScoreAutoAuditOneExtendIn(cardOpen06MONTHOrgCNT>4);
+    then
+        //actions
+        cExt.setCardOpen06MONTHOrgCNT(4);
+        update(cExt);
+end
+
+rule "cc_in6mopen_num1"
+          ruleflow-group "modelTwoConvert"
+          salience 7
+    when
+        //conditions
+         cExt:CreditScoreAutoAuditOneExtendIn();
+    then
+        //actions
+        cExt.setCc_in6mopen_num1(Math.log(new Double(cExt.getCardOpen06MONTHOrgCNT()+1)));
+end
+
+rule "m6_ccap_reject_cnt1"
+          ruleflow-group "modelTwoConvert"
+    when
+        //conditions
+         cExt:CreditScoreAutoAuditOneExtendIn(cardReject06MonthFrequency<=0);
+    then
+        //actions
+        cExt.setM6_ccap_reject_cnt1(1);
+end
+
+rule "cc_num_fc2"
+          ruleflow-group "modelTwoConvert"
+    when
+        //conditions
+         cExt:CreditScoreAutoAuditOneExtendIn(cardForeignOrgCNT>=2);
+    then
+        //actions
+        cExt.setCc_num_fc2(1);
+end
+
+rule "cc_max_line_rmb1"
+          ruleflow-group "modelTwoConvert"
+    when
+        //conditions
+         cExt:CreditScoreAutoAuditOneExtendIn(cardMaxCreditLineAmt!=null && cardMaxCreditLineAmt.compareTo(new BigDecimal(5000))<0);
+    then
+        //actions
+        cExt.setCc_max_line_rmb1(1);
+end
+
+rule "cc_1st_open_intvl1"
+          ruleflow-group "modelTwoConvert"
+    when
+        //conditions
+         cExt:CreditScoreAutoAuditOneExtendIn(cardFirstOpenMonth<=7);
+    then
+        //actions
+        cExt.setCc_1st_open_intvl1(1);
+end
+
+rule "cc_1st_open_intvl2"
+          ruleflow-group "modelTwoConvert"
+    when
+        //conditions
+         cExt:CreditScoreAutoAuditOneExtendIn(cardFirstOpenMonth>=16);
+    then
+        //actions
+        cExt.setCc_1st_open_intvl2(1);
+end
+
+rule "cc_overdraw_rate_rmb2"
+          ruleflow-group "modelTwoConvert"
+    when
+        //conditions
+         cExt:CreditScoreAutoAuditOneExtendIn(cardCreditUsedPercent!=null && cardCreditUsedPercent.compareTo(new BigDecimal(0.97))>=0);
+    then
+        //actions
+        cExt.setCc_overdraw_rate_rmb2(1);
+end

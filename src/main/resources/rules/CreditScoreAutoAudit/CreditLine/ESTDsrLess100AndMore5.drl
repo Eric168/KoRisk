@@ -1,0 +1,207 @@
+/*created time 2016-4-21
+  @auther xiaoling 
+ **/
+
+
+package CreditLine
+
+
+
+import com.madai.model.approval.CreditLine.CreditLineIn;
+import com.madai.model.approval.CreditLine.CreditLineOut;
+//list any import classes here.
+
+
+//declare any global variables here
+rule"ESTBase_Line_EST00049"
+    ruleflow-group "ESTDsrLess100AndMore5"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(middleCode=="EST_0001");
+         cOut:CreditLineOut();  
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(cOut.getTimes()-1);
+        cOut.setAmount(cExt.getBase()*(cOut.getTimes()));
+        cOut.setReturnCode("Line_EST00049");
+        update(cOut);      
+end
+rule"ESTBase_Line_EST00050"
+    ruleflow-group "ESTDsrLess100AndMore5"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(middleCode=="EST_0002");
+         cOut:CreditLineOut();  
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(cOut.getTimes()-1);
+        cOut.setAmount(cExt.getBase()*(cOut.getTimes()));
+        cOut.setReturnCode("Line_EST00050"); 
+        update(cOut);     
+end
+rule"ESTBase_Line_EST00051"
+    ruleflow-group "ESTDsrLess100AndMore5"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(middleCode=="EST_0003");
+         cOut:CreditLineOut(); 
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(cOut.getTimes()-1);
+        cOut.setAmount(cExt.getBase()*(cOut.getTimes()));
+        cOut.setReturnCode("Line_EST00051"); 
+        update(cOut);     
+end
+rule"ESTBase_Line_EST00052"
+    ruleflow-group "ESTDsrLess100AndMore5"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(middleCode=="EST_0004");
+         cOut:CreditLineOut();  
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(cOut.getTimes()-1);
+        cOut.setAmount(cExt.getBase()*(cOut.getTimes()));
+        cOut.setReturnCode("Line_EST00052"); 
+        update(cOut);     
+end
+rule"ESTBase_Line_EST00053"
+    ruleflow-group "ESTDsrLess100AndMore5"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(middleCode=="EST_0005");
+         cOut:CreditLineOut();  
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(cOut.getTimes()-1);
+        cOut.setAmount(cExt.getBase()*(cOut.getTimes()));
+        cOut.setReturnCode("Line_EST00053");  
+        update(cOut);    
+end
+rule"ESTBase_Line_EST00054"
+    ruleflow-group "ESTDsrLess100AndMore5"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(middleCode=="EST_0006");
+         cOut:CreditLineOut();  
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(cOut.getTimes()-1);
+        cOut.setAmount(cExt.getBase()*(cOut.getTimes()));
+        cOut.setReturnCode("Line_EST00054"); 
+        update(cOut);     
+end
+rule"ESTBase_Line_EST00055"
+    ruleflow-group "ESTDsrLess100AndMore5"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(middleCode=="EST_0007");
+         cOut:CreditLineOut();  
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(cOut.getTimes()-1);
+        cOut.setAmount(cExt.getBase()*(cOut.getTimes()));
+        cOut.setReturnCode("Line_EST00055"); 
+        update(cOut);     
+end
+rule"ESTBase_Line_EST00056"
+    ruleflow-group "ESTDsrLess100AndMore5"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(middleCode=="EST_0008");
+         cOut:CreditLineOut();  
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(cOut.getTimes()-1);
+        cOut.setAmount(cExt.getBase()*(cOut.getTimes()));
+        cOut.setReturnCode("Line_EST00056");  
+        update(cOut);    
+end
+rule"ESTBase_Line_EST00057"
+    ruleflow-group "ESTDsrLess100AndMore5"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(middleCode=="EST_0009");
+         cOut:CreditLineOut();  
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(cOut.getTimes()-1);
+        cOut.setAmount(cExt.getBase()*(cOut.getTimes()));
+        cOut.setReturnCode("Line_EST00057"); 
+        update(cOut);     
+end
+rule"ESTBase_Line_EST00058"
+    ruleflow-group "ESTDsrLess100AndMore5"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(middleCode=="EST_0010");
+         cOut:CreditLineOut();  
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(cOut.getTimes()-1);
+        cOut.setAmount(cExt.getBase()*(cOut.getTimes()));
+        cOut.setReturnCode("Line_EST00058"); 
+        update(cOut);     
+end
+rule"ESTBase_Line_EST00059"
+    ruleflow-group "ESTDsrLess100AndMore5"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(middleCode=="EST_0011");
+         cOut:CreditLineOut();  
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(cOut.getTimes()-1);
+        cOut.setAmount(cExt.getBase()*(cOut.getTimes()));
+        cOut.setReturnCode("Line_EST00059"); 
+        update(cOut);     
+end
+rule"ESTBase_Line_EST00060"
+    ruleflow-group "ESTDsrLess100AndMore5"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(middleCode=="EST_0012");
+         cOut:CreditLineOut();  
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(cOut.getTimes()-1);
+        cOut.setAmount(cExt.getBase()*(cOut.getTimes()));
+        cOut.setReturnCode("Line_EST00060"); 
+        update(cOut);     
+end

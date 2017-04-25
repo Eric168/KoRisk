@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<process xmlns="http://drools.org/drools-5.0/process"
+         xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+         xs:schemaLocation="http://drools.org/drools-5.0/process drools-processes-5.0.xsd"
+         type="RuleFlow" name="rateFlow" id="CreditScoreAutoAudit.ProductRateFlow" package-name="ProductRate" >
+
+  <header>
+  </header>
+
+  <nodes>
+    <start id="1" name="Start" x="441" y="28" width="48" height="48" />
+    <ruleSet id="9" name="rate" x="398" y="173" width="137" height="47" ruleFlowGroup="auditProductRate" />
+    <end id="10" name="End" x="443" y="303" width="74" height="22" />
+  </nodes>
+
+  <connections>
+    <connection from="1" to="9" />
+    <connection from="9" to="10" />
+  </connections>
+
+</process>

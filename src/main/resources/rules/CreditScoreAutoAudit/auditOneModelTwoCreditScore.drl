@@ -1,0 +1,79 @@
+//created on: 2016-3-18
+package autoAuditOneCreditScore
+
+
+import com.madai.model.approval.CreditScoreAutoAuditOneOut;
+import com.madai.model.approval.CreditScoreAutoAuditOneExtendIn;
+import java.lang.Math;
+import java.math.BigDecimal;
+//list any import classes here.
+
+
+
+//declare any global variables here
+
+
+
+
+rule "modelTwoCreditScore"
+          ruleflow-group "modelTwoCreditScore"
+           no-loop true
+    when
+        //conditions
+         cOut:CreditScoreAutoAuditOneOut();
+         cExt:CreditScoreAutoAuditOneExtendIn();
+    then
+        //actions    //-(-2.4290+
+       //actions    
+        double a_0=-2.429;
+        double a_1=cExt.getS2yquery2();
+        double a_2=cExt.getCc_in6mopen_num1();
+        double a_3=cExt.getM6_ccap_reject_cnt1();
+        double a_4=cExt.getCc_num_fc2();
+        double a_5=cExt.getCc_max_line_rmb1();
+        double a_6=cExt.getCc_1st_open_intvl1();
+        double a_7=cExt.getCc_1st_open_intvl2();
+        double a_8=cExt.getCc_overdraw_rate_rmb2();
+        double a_9=cExt.getSex1();
+        double a_10=cExt.getDegree1();
+        double a_11=cExt.getOrg_type1();
+        double a_12=cExt.getOrg_type2();
+        double a_13=cExt.getCitycategory1();
+       
+        //System.out.println("model_two");
+        //System.out.println("a_1:"+a_1);
+        //System.out.println("a_2:"+a_2);
+        //System.out.println("a_3:"+a_3);
+        //System.out.println("a_4:"+a_4);
+        //System.out.println("a_5:"+a_5);
+        //System.out.println("a_6:"+a_6);
+        //System.out.println("a_7:"+a_7);
+        //System.out.println("a_8:"+a_8);
+        //System.out.println("a_9:"+a_9);
+        //System.out.println("a_10:"+a_10);
+        //System.out.println("a_11:"+a_11);
+        //System.out.println("a_12:"+a_12);
+        //System.out.println("a_13:"+a_13);
+        
+        double k_1=0.5421;
+        double k_2=0.2288;
+        double k_3=-0.3456;
+        double k_4=-0.3049;
+        double k_5=0.2987;
+        double k_6=0.2529;
+        double k_7=-0.4554;
+        double k_8=0.4865;
+        double k_9=0.678;
+        double k_10=-0.351;
+        double k_11=-0.2266;
+        double k_12=-0.5028;
+        double k_13=0.2731;
+       
+        double k=a_0+a_1*k_1+a_2*k_2+a_3*k_3+a_4*k_4+a_5*k_5+a_6*k_6+a_7*k_7+a_8*k_8+a_9*k_9+a_10*k_10+a_11*k_11+a_12*k_12+a_13*k_13;
+        cOut.setScore(1/(1+Math.exp(-k)));
+        
+        System.out.println("modelTwo_cOut.setScore:"+cOut.getScore());
+        
+        update(cOut);
+end
+

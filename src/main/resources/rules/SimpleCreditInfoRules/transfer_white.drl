@@ -1,0 +1,146 @@
+//created on: 2016-05-16
+package SimpleCreditInfoRules
+
+//import com.madaii.model.SimpleCreditInfo;
+//import com.madaii.model.ResponseResult;
+//list any import classes here.
+import com.madai.model.approval.CreditBusiness.CreditBusinessResult;
+import com.madai.model.approval.CreditBusiness.CreditParticular;
+
+
+rule "white_whiteNoRecord"
+      ruleflow-group "transfer_white"
+    when
+        //conditions
+       CBRT:CreditBusinessResult(creditParticularList.size()==0);
+    then
+        //actions
+       CBRT.setWhiteNoRecord(1);
+ end
+   
+ rule "white_recordTotalCount"     //总信用记录数
+      ruleflow-group "transfer_white"
+    when
+        //conditions
+       CBRT:CreditBusinessResult();
+       Cpar:CreditParticular(busiType in ("CREDIT_CARD","LOAN"))  from CBRT.creditParticularList;
+    then
+        //actions
+        CBRT.setRecordTotalCount(CBRT.getRecordTotalCount()+1);
+ end
+  rule "white_notOtherLoanAndFarmerLoanTotalCount"     //非其他性质贷款，非农户性质贷款总记录数
+      ruleflow-group "transfer_white"
+    when
+        //conditions
+       CBRT:CreditBusinessResult();
+       Cpar:CreditParticular(loanProperty  not in ("02","05"))  from CBRT.creditParticularList;
+    then
+        //actions
+        CBRT.setNotOtherLoanAndFarmerLoanTotalCount(CBRT.getNotOtherLoanAndFarmerLoanTotalCount()+1);
+ end
+ 
+ /*
+ rule "white_cardRecordTotalCount"    //信用卡记录数
+      ruleflow-group "transfer_white"
+      salience 100 
+      lock-on-active true
+    when
+        //conditions
+       CBRT:CreditBusinessResult();
+       Cpar:CreditParticular(busiType=="CREDIT_CARD")  from CBRT.creditParticularList;
+    then
+        //actions
+        CBRT.setCardRecordTotalCount(CBRT.getCardRecordTotalCount()+1);
+  end
+ rule "white_loanRecordTotalCount"     //贷款记录数
+      ruleflow-group "transfer_white"
+      salience 100 
+      lock-on-active true
+    when
+        //conditions
+       CBRT:CreditBusinessResult();
+       Cpar:CreditParticular(busiType=="LOAN")  from CBRT.creditParticularList;
+    then
+        //actions
+        CBRT.setLoanRecordTotalCount(CBRT.getLoanRecordTotalCount()+1);
+ end
+  */  
+ 
+ rule "white_whiteHasRecAllJqXhMore02YearCount"
+      ruleflow-group "transfer_white"
+    when
+        //conditions
+        CBRT:CreditBusinessResult();
+        Cpar:CreditParticular((busiType=="CREDIT_CARD" && cardAccountClosedMonths>24 || busiType=="LOAN" && loanSettlemonths>24) && acctStatus in ("3","14"))  from CBRT.creditParticularList;
+        
+    then
+        //actions
+        CBRT.setWhiteHasRecAllJqXhMore02YearCount(CBRT.getWhiteHasRecAllJqXhMore02YearCount()+1);
+ end  
+ 
+ rule "white_whiteAllCardWjhReportQueryLess03MonthCount"
+      ruleflow-group "transfer_white"
+    when
+        //conditions
+        CBRT:CreditBusinessResult();
+        Cpar:CreditParticular(busiType=="CREDIT_CARD" && acctStatus=="16" || busiType=="LOAN" && loanOpenMonths<3)  from CBRT.creditParticularList;
+    then
+        //actions
+        CBRT.setWhiteAllCardWjhReportQueryLess03MonthCount(CBRT.getWhiteAllCardWjhReportQueryLess03MonthCount()+1);
+ end  
+ 
+  rule "white_whiteAllCardLess03banlce0JqOver02Count"
+      ruleflow-group "transfer_white"
+    when
+        //conditions
+        CBRT:CreditBusinessResult();
+        Cpar:CreditParticular(busiType=="CREDIT_CARD" && ((subBusiType=="贷记卡" && usedcreditLineAmt==0) || (subBusiType=="准贷记卡" && overdraftBalance==0)) && cardOpenMonths<3 || busiType=="LOAN" && acctStatus=="3" && loanSettlemonths>24)  from CBRT.creditParticularList;
+    then
+        //actions
+        CBRT.setWhiteAllCardLess03banlce0JqOver02Count(CBRT.getWhiteAllCardLess03banlce0JqOver02Count()+1);
+ end  
+ 
+   rule "other_otherEndBefApplyDateNhLoanMore1WCount"
+      ruleflow-group "transfer_white"
+    when
+        //conditions
+        CBRT:CreditBusinessResult();
+        Cpar:CreditParticular(busiType=="LOAN" && dateClosed<reportQueryDate && loanProperty in ("02","05") && loanBalance>=10000 && acctStatus not in ("3") )  from CBRT.creditParticularList;
+    then
+        //actions
+        CBRT.setOtherEndBefApplyDateNhLoanMore1WCount(CBRT.getOtherEndBefApplyDateNhLoanMore1WCount()+1);
+ end 
+ 
+    rule "other_other3MonthQueryEXProductMore6Count"
+      ruleflow-group "transfer_white"
+    when
+        //conditions
+        CBRT:CreditBusinessResult(loanGuaranteeQuery03MonthFrequency+selfQuery03MonthFrequencySameday>=6 && productCode in ("Efangtong","Eshetong","Ewangtong"));
+        //Cpar:CreditParticular()  from CBRT.creditParticularList;
+    then
+        //actions
+        CBRT.setOther3MonthQueryEXProductMore6Count(CBRT.getOther3MonthQueryEXProductMore6Count()+1);
+ end   
+ 
+     rule "other_other3MonthQueryUProductMore8Count"
+      ruleflow-group "transfer_white"
+    when
+        //conditions
+        CBRT:CreditBusinessResult(loanGuaranteeQuery03MonthFrequency+selfQuery03MonthFrequencySameday>=8 && productCode in ("Elite","Ebaotong"));
+       // Cpar:CreditParticular()  from CBRT.creditParticularList;
+    then
+        //actions
+        CBRT.setOther3MonthQueryUProductMore8Count(CBRT.getOther3MonthQueryUProductMore8Count()+1);
+ end  
+  
+   rule "other_other24MonthQueryMore24Count"
+      ruleflow-group "transfer_white"
+    when
+        //conditions
+        CBRT:CreditBusinessResult(cardApply24MonthFrequency>24);
+        //Cpar:CreditParticular()  from CBRT.creditParticularList;
+    then
+        //actions
+        CBRT.setOther24MonthQueryMore24Count(CBRT.getOther24MonthQueryMore24Count()+1);
+ end  
+

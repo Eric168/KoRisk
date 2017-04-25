@@ -1,0 +1,528 @@
+//created on: 2016-3-30
+package autoAuditOneCreditScore
+
+
+import com.madai.model.approval.CreditScoreAutoAuditOneOut;
+import com.madai.model.approval.CreditScoreAutoAuditOneExtendIn;
+import java.lang.Math;
+//list any import classes here.
+
+
+
+//declare any global variables here
+//default
+rule "GroupeLevel_default_A"
+          ruleflow-group "auditGroupLevel"
+          salience 100
+    when
+        //conditions
+         cOut:CreditScoreAutoAuditOneOut(score<=0.05);
+         cExt:CreditScoreAutoAuditOneExtendIn();
+    then
+        //actions
+        cOut.setGroupLevel("A");
+        cOut.setRiskLevel("低");
+        cOut.setAppId(cExt.getAppId());
+        cOut.setModelVersion("1.0.0");
+end
+
+rule "GroupeLevel_default_B"
+          ruleflow-group "auditGroupLevel"
+          salience 99
+    when
+        //conditions
+         cOut:CreditScoreAutoAuditOneOut(score>0.05 &&score<=0.10);
+         cExt:CreditScoreAutoAuditOneExtendIn();
+    then
+        //actions
+        cOut.setGroupLevel("B");
+        cOut.setRiskLevel("低");
+        //System.out.println("branchCode11111111:"+cExt.getBranchCode());
+        cOut.setAppId(cExt.getAppId());
+        cOut.setModelVersion("1.0.0");
+end
+
+rule "GroupeLevel_default_C"
+          ruleflow-group "auditGroupLevel"
+          salience 98
+    when
+        //conditions
+         cOut:CreditScoreAutoAuditOneOut(score>0.10 && score<=0.15);
+         cExt:CreditScoreAutoAuditOneExtendIn();
+    then
+        //actions
+        cOut.setGroupLevel("C");
+        cOut.setRiskLevel("中");
+        cOut.setAppId(cExt.getAppId());
+        cOut.setModelVersion("1.0.0");
+end
+
+rule "GroupeLevel_default_D"
+          ruleflow-group "auditGroupLevel"
+          salience 97
+    when
+        //conditions
+         cOut:CreditScoreAutoAuditOneOut(score>0.15 && score<=0.25);
+         cExt:CreditScoreAutoAuditOneExtendIn();
+    then
+        //actions
+        cOut.setGroupLevel("D");
+        cOut.setRiskLevel("中");
+        cOut.setAppId(cExt.getAppId());
+        cOut.setModelVersion("1.0.0");
+end
+
+rule "GroupeLevel_default_E"
+          ruleflow-group "auditGroupLevel"
+          salience 96
+    when
+        //conditions
+         cOut:CreditScoreAutoAuditOneOut(score>0.25 && score<=0.30);
+         cExt:CreditScoreAutoAuditOneExtendIn();
+    then
+        //actions
+        cOut.setGroupLevel("E");
+        cOut.setRiskLevel("高");
+        cOut.setAppId(cExt.getAppId());
+        cOut.setModelVersion("1.0.0");
+end
+
+rule "GroupeLevel_default_F"
+          ruleflow-group "auditGroupLevel"
+          salience 95
+    when
+        //conditions
+         cOut:CreditScoreAutoAuditOneOut(score>0.30);
+         cExt:CreditScoreAutoAuditOneExtendIn();
+    then
+        //actions
+        cOut.setGroupLevel("F");
+        cOut.setRiskLevel("高");
+        cOut.setAppId(cExt.getAppId());
+        cOut.setModelVersion("1.0.0");
+end
+
+
+//shanghai
+rule "GroupeLevel_shanghai_A"
+          ruleflow-group "auditGroupLevel"
+    when
+        //conditions
+         cOut:CreditScoreAutoAuditOneOut(score<=0.06);
+         cExt:CreditScoreAutoAuditOneExtendIn(branchCode in("6","13"));
+    then
+        //actions
+        cOut.setGroupLevel("A");
+        cOut.setRiskLevel("低");
+        cOut.setAppId(cExt.getAppId());
+        cOut.setModelVersion("1.0.0");
+end
+
+rule "GroupeLevel_shanghai_B"
+          ruleflow-group "auditGroupLevel"
+    when
+        //conditions
+         cOut:CreditScoreAutoAuditOneOut(score>0.06 && score<=0.12);
+         cExt:CreditScoreAutoAuditOneExtendIn(branchCode in("6","13"));
+    then
+        //actions
+        cOut.setGroupLevel("B");
+        cOut.setRiskLevel("低");
+        cOut.setAppId(cExt.getAppId());
+        cOut.setModelVersion("1.0.0");
+end
+
+rule "GroupeLevel_shanghai_C"
+          ruleflow-group "auditGroupLevel"
+    when
+        //conditions
+         cOut:CreditScoreAutoAuditOneOut(score>0.12 && score<=0.17);
+         cExt:CreditScoreAutoAuditOneExtendIn(branchCode in("6","13"));
+    then
+        //actions
+        cOut.setGroupLevel("C");
+        cOut.setRiskLevel("中");
+        cOut.setAppId(cExt.getAppId());
+        cOut.setModelVersion("1.0.0");
+end
+
+rule "GroupeLevel_shanghai_D"
+          ruleflow-group "auditGroupLevel"
+    when
+        //conditions
+         cOut:CreditScoreAutoAuditOneOut(score>0.17 && score<=0.27);
+         cExt:CreditScoreAutoAuditOneExtendIn(branchCode in("6","13"));
+    then
+        //actions
+        cOut.setGroupLevel("D");
+        cOut.setRiskLevel("中");
+        cOut.setAppId(cExt.getAppId());
+        cOut.setModelVersion("1.0.0");
+end
+
+rule "GroupeLevel_shanghai_E"
+          ruleflow-group "auditGroupLevel"
+    when
+        //conditions
+         cOut:CreditScoreAutoAuditOneOut(score>0.27 && score<=0.32);
+         cExt:CreditScoreAutoAuditOneExtendIn(branchCode in("6","13"));
+    then
+        //actions
+        cOut.setGroupLevel("E");
+        cOut.setRiskLevel("高");
+        cOut.setAppId(cExt.getAppId());
+        cOut.setModelVersion("1.0.0");
+end
+
+rule "GroupeLevel_shanghai_F"
+          ruleflow-group "auditGroupLevel"
+    when
+        //conditions
+         cOut:CreditScoreAutoAuditOneOut(score>0.32);
+         cExt:CreditScoreAutoAuditOneExtendIn(branchCode in("6","13"));
+    then
+        //actions
+        cOut.setGroupLevel("F");
+        cOut.setRiskLevel("高");
+        cOut.setAppId(cExt.getAppId());
+        cOut.setModelVersion("1.0.0");
+end
+
+//guangzhou
+rule "GroupeLevel_guangzhou_A"
+          ruleflow-group "auditGroupLevel"
+    when
+        //conditions
+         cOut:CreditScoreAutoAuditOneOut(score<=0.08);
+         cExt:CreditScoreAutoAuditOneExtendIn(branchCode in("16"));
+    then
+        //actions
+        cOut.setGroupLevel("A");
+        cOut.setRiskLevel("低");
+        cOut.setAppId(cExt.getAppId());
+        cOut.setModelVersion("1.0.0");
+end
+
+rule "GroupeLevel_guangzhou_B"
+          ruleflow-group "auditGroupLevel"
+    when
+        //conditions
+         cOut:CreditScoreAutoAuditOneOut(score>0.08 && score<=0.12);
+         cExt:CreditScoreAutoAuditOneExtendIn(branchCode in("16"));
+    then
+        //actions
+        cOut.setGroupLevel("B");
+        cOut.setRiskLevel("低");
+        cOut.setAppId(cExt.getAppId());
+        cOut.setModelVersion("1.0.0");
+end
+
+rule "GroupeLevel_guangzhou_C"
+          ruleflow-group "auditGroupLevel"
+    when
+        //conditions
+         cOut:CreditScoreAutoAuditOneOut(score>0.12 && score<=0.20);
+         cExt:CreditScoreAutoAuditOneExtendIn(branchCode in("16"));
+    then
+        //actions
+        cOut.setGroupLevel("C");
+        cOut.setRiskLevel("中");
+        cOut.setAppId(cExt.getAppId());
+        cOut.setModelVersion("1.0.0");
+end
+
+rule "GroupeLevel_guangzhou_D"
+          ruleflow-group "auditGroupLevel"
+    when
+        //conditions
+         cOut:CreditScoreAutoAuditOneOut(score>0.20 &&score<=0.28);
+         cExt:CreditScoreAutoAuditOneExtendIn(branchCode in("16"));
+    then
+        //actions
+        cOut.setGroupLevel("D");
+        cOut.setRiskLevel("中");
+        cOut.setAppId(cExt.getAppId());
+        cOut.setModelVersion("1.0.0");
+end
+
+rule "GroupeLevel_guangzhou_E"
+          ruleflow-group "auditGroupLevel"
+    when
+        //conditions
+         cOut:CreditScoreAutoAuditOneOut(score>0.28 && score<=0.35);
+         cExt:CreditScoreAutoAuditOneExtendIn(branchCode in("16"));
+    then
+        //actions
+        cOut.setGroupLevel("E");
+        cOut.setRiskLevel("高");
+        cOut.setAppId(cExt.getAppId());
+        cOut.setModelVersion("1.0.0");
+end
+
+rule "GroupeLevel_guangzhou_F"
+          ruleflow-group "auditGroupLevel"
+    when
+        //conditions
+         cOut:CreditScoreAutoAuditOneOut(score>0.35);
+         cExt:CreditScoreAutoAuditOneExtendIn(branchCode in("16"));
+    then
+        //actions
+        cOut.setGroupLevel("F");
+        cOut.setRiskLevel("高");
+        cOut.setAppId(cExt.getAppId());
+        cOut.setModelVersion("1.0.0");
+end
+
+//hefei
+rule "GroupeLevel_hefei_A"
+          ruleflow-group "auditGroupLevel"
+    when
+        //conditions
+         cOut:CreditScoreAutoAuditOneOut(score<=0.07);
+         cExt:CreditScoreAutoAuditOneExtendIn(branchCode in("14"));
+    then
+        //actions
+        cOut.setGroupLevel("A");
+        cOut.setRiskLevel("低");
+        cOut.setAppId(cExt.getAppId());
+        cOut.setModelVersion("1.0.0");
+end
+
+rule "GroupeLevel_hefei_B"
+          ruleflow-group "auditGroupLevel"
+    when
+        //conditions
+         cOut:CreditScoreAutoAuditOneOut(score>0.07 && score<=0.11);
+         cExt:CreditScoreAutoAuditOneExtendIn(branchCode in("14"));
+    then
+        //actions
+        cOut.setGroupLevel("B");
+        cOut.setRiskLevel("低");
+        cOut.setAppId(cExt.getAppId());
+        cOut.setModelVersion("1.0.0");
+end
+
+rule "GroupeLevel_hefei_C"
+          ruleflow-group "auditGroupLevel"
+    when
+        //conditions
+         cOut:CreditScoreAutoAuditOneOut(score>0.11 && score<=0.16);
+         cExt:CreditScoreAutoAuditOneExtendIn(branchCode in("14"));
+    then
+        //actions
+        cOut.setGroupLevel("C");
+        cOut.setRiskLevel("中");
+        cOut.setAppId(cExt.getAppId());
+        cOut.setModelVersion("1.0.0");
+end
+
+rule "GroupeLevel_hefei_D"
+          ruleflow-group "auditGroupLevel"
+    when
+        //conditions
+         cOut:CreditScoreAutoAuditOneOut(score>0.16 && score<=0.25);
+         cExt:CreditScoreAutoAuditOneExtendIn(branchCode in("14"));
+    then
+        //actions
+        cOut.setGroupLevel("D");
+        cOut.setRiskLevel("中");
+        cOut.setAppId(cExt.getAppId());
+        cOut.setModelVersion("1.0.0");
+end
+
+rule "GroupeLevel_hefei_E"
+          ruleflow-group "auditGroupLevel"
+    when
+        //conditions
+         cOut:CreditScoreAutoAuditOneOut(score>0.25 && score<=0.30);
+         cExt:CreditScoreAutoAuditOneExtendIn(branchCode in("14"));
+    then
+        //actions
+        cOut.setGroupLevel("E");
+        cOut.setRiskLevel("高");
+        cOut.setAppId(cExt.getAppId());
+        cOut.setModelVersion("1.0.0");
+end
+
+rule "GroupeLevel_hefei_F"
+          ruleflow-group "auditGroupLevel"
+    when
+        //conditions
+         cOut:CreditScoreAutoAuditOneOut(score>0.30);
+         cExt:CreditScoreAutoAuditOneExtendIn(branchCode in("14"));
+    then
+        //actions
+        cOut.setGroupLevel("F");
+        cOut.setRiskLevel("高");
+        cOut.setAppId(cExt.getAppId());
+        cOut.setModelVersion("1.0.0");
+end
+//chengdu fuzhou 
+
+rule "GroupeLevel_chengdufuzhou_A"
+          ruleflow-group "auditGroupLevel"
+    when
+        //conditions
+         cOut:CreditScoreAutoAuditOneOut(score<=0.05);
+         cExt:CreditScoreAutoAuditOneExtendIn(branchCode in("17","15"));
+    then
+        //actions
+        cOut.setGroupLevel("A");
+        cOut.setRiskLevel("低");
+        cOut.setAppId(cExt.getAppId());
+        cOut.setModelVersion("1.0.0");
+end
+
+rule "GroupeLevel_chengdufuzhou_B"
+          ruleflow-group "auditGroupLevel"
+    when
+        //conditions
+         cOut:CreditScoreAutoAuditOneOut(score>0.05 && score<=0.08);
+         cExt:CreditScoreAutoAuditOneExtendIn(branchCode in("17","15"));
+    then
+        //actions
+        cOut.setGroupLevel("B");
+        cOut.setRiskLevel("低");
+        cOut.setAppId(cExt.getAppId());
+        cOut.setModelVersion("1.0.0");
+end
+
+rule "GroupeLevel_chengdufuzhou_C"
+          ruleflow-group "auditGroupLevel"
+    when
+        //conditions
+         cOut:CreditScoreAutoAuditOneOut(score>0.08 && score<=0.12);
+         cExt:CreditScoreAutoAuditOneExtendIn(branchCode in("17","15"));
+    then
+        //actions
+        cOut.setGroupLevel("C");
+        cOut.setRiskLevel("中");
+        cOut.setAppId(cExt.getAppId());
+        cOut.setModelVersion("1.0.0");
+end
+
+rule "GroupeLevel_chengdufuzhou_D"
+          ruleflow-group "auditGroupLevel"
+    when
+        //conditions
+         cOut:CreditScoreAutoAuditOneOut(score>0.12 && score<=0.20);
+         cExt:CreditScoreAutoAuditOneExtendIn(branchCode in("17","15"));
+    then
+        //actions
+        cOut.setGroupLevel("D");
+        cOut.setRiskLevel("中");
+        cOut.setAppId(cExt.getAppId());
+        cOut.setModelVersion("1.0.0");
+end
+
+rule "GroupeLevel_chengdufuzhou_E"
+          ruleflow-group "auditGroupLevel"
+    when
+        //conditions
+         cOut:CreditScoreAutoAuditOneOut(score>0.20 && score<=0.30);
+         cExt:CreditScoreAutoAuditOneExtendIn(branchCode in("17","15"));
+    then
+        //actions
+        cOut.setGroupLevel("E");
+        cOut.setRiskLevel("高");
+        cOut.setAppId(cExt.getAppId());
+        cOut.setModelVersion("1.0.0");
+end
+
+rule "GroupeLevel_chengdufuzhou_F"
+          ruleflow-group "auditGroupLevel"
+    when
+        //conditions
+         cOut:CreditScoreAutoAuditOneOut(score>0.30);
+         cExt:CreditScoreAutoAuditOneExtendIn(branchCode in("17","15"));
+    then
+        //actions
+        cOut.setGroupLevel("F");
+        cOut.setRiskLevel("高");
+        cOut.setAppId(cExt.getAppId());
+        cOut.setModelVersion("1.0.0");
+end
+//haikou wulumuqi huhehaote chifneg huaihua
+rule "GroupeLevel_HkWlmqHhhtCfHh_A"
+          ruleflow-group "auditGroupLevel"
+    when
+        //conditions
+         cOut:CreditScoreAutoAuditOneOut(score<=0.04);
+         cExt:CreditScoreAutoAuditOneExtendIn(branchCode in("55","65","60","63","71"));
+    then
+        //actions
+        cOut.setGroupLevel("A");
+        cOut.setRiskLevel("低");
+        cOut.setAppId(cExt.getAppId());
+        cOut.setModelVersion("1.0.0");
+end
+
+rule "GroupeLevel_HkWlmqHhhtCfHh_B"
+          ruleflow-group "auditGroupLevel"
+    when
+        //conditions
+         cOut:CreditScoreAutoAuditOneOut(score>0.04 && score<=0.08);
+         cExt:CreditScoreAutoAuditOneExtendIn(branchCode in("55","65","60","63","71"));
+    then
+        //actions
+        cOut.setGroupLevel("B");
+        cOut.setRiskLevel("低");
+        cOut.setAppId(cExt.getAppId());
+        cOut.setModelVersion("1.0.0");
+end
+
+rule "GroupeLevel_HkWlmqHhhtCfHh_C"
+          ruleflow-group "auditGroupLevel"
+    when
+        //conditions
+         cOut:CreditScoreAutoAuditOneOut(score>0.08 && score<=0.12);
+         cExt:CreditScoreAutoAuditOneExtendIn(branchCode in("55","65","60","63","71"));
+    then
+        //actions
+        cOut.setGroupLevel("C");
+        cOut.setRiskLevel("中");
+        cOut.setAppId(cExt.getAppId());
+        cOut.setModelVersion("1.0.0");
+end
+
+rule "GroupeLevel_HkWlmqHhhtCfHh_D"
+          ruleflow-group "auditGroupLevel"
+    when
+        //conditions
+         cOut:CreditScoreAutoAuditOneOut(score>0.12 && score<=0.20);
+         cExt:CreditScoreAutoAuditOneExtendIn(branchCode in("55","65","60","63","71"));
+    then
+        //actions
+        cOut.setGroupLevel("D");
+        cOut.setRiskLevel("中");
+        cOut.setAppId(cExt.getAppId());
+        cOut.setModelVersion("1.0.0");
+end
+
+rule "GroupeLevel_HkWlmqHhhtCfHh_E"
+          ruleflow-group "auditGroupLevel"
+    when
+        //conditions
+         cOut:CreditScoreAutoAuditOneOut(score>0.20 && score<=0.25);
+         cExt:CreditScoreAutoAuditOneExtendIn(branchCode in("55","65","60","63","71"));
+    then
+        //actions
+        cOut.setGroupLevel("E");
+        cOut.setRiskLevel("高");
+        cOut.setAppId(cExt.getAppId());
+        cOut.setModelVersion("1.0.0");
+end
+
+rule "GroupeLevel_HkWlmqHhhtCfHh_F"
+          ruleflow-group "auditGroupLevel"
+    when
+        //conditions
+         cOut:CreditScoreAutoAuditOneOut(score>0.25);
+         cExt:CreditScoreAutoAuditOneExtendIn(branchCode in("55","65","60","63","71"));
+    then
+        //actions
+        cOut.setGroupLevel("F");
+        cOut.setRiskLevel("高");
+        cOut.setAppId(cExt.getAppId());
+        cOut.setModelVersion("1.0.0");
+end

@@ -1,0 +1,67 @@
+/*created time 2016-4-22
+  @auther xiaoling 
+ **/
+
+
+package CreditLine
+
+
+
+import com.madai.model.approval.CreditLine.CreditLineIn;
+import com.madai.model.approval.CreditLine.CreditLineOut;
+//list any import classes here.
+
+
+//declare any global variables here
+
+
+rule "EWTBase_Line_EWT00071"
+    ruleflow-group "EWTDsrLessThrAndSalaryNaAndLess"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(middleCode=="EWT_0001" );
+         cOut:CreditLineOut();  
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(cOut.getTimes());
+        cOut.setAmount(cExt.getIncome()*cOut.getTimes());
+        cOut.setReturnCode("Line_EWT00071");  
+        update(cOut);    
+end
+
+rule "EWTBase_Line_EWT00072"
+    ruleflow-group "EWTDsrLessThrAndSalaryNaAndLess"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(middleCode=="EWT_0002" );
+         cOut:CreditLineOut();  
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(cOut.getTimes());
+        cOut.setAmount(cExt.getIncome()*cOut.getTimes());
+        cOut.setReturnCode("Line_EWT00072");   
+        update(cOut);   
+end
+
+rule "EWTBase_Line_EWT00073"
+    ruleflow-group "EWTDsrLessThrAndSalaryNaAndLess"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(middleCode=="EWT_0003" );
+         cOut:CreditLineOut();  
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(cOut.getTimes());
+        cOut.setAmount(cExt.getIncome()*cOut.getTimes());
+        cOut.setReturnCode("Line_EWT00073"); 
+        update(cOut);     
+end

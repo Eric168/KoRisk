@@ -1,0 +1,266 @@
+//created on: 2016-03-28
+package CreditLine
+
+import com.madai.model.approval.CreditLine.CreditLineIn;
+import com.madai.model.approval.CreditLine.CreditLineOut;
+//list any import classes here.
+
+
+
+//declare any global variables here
+ //UDTBase
+  rule "UDTBase_UDT_0001"
+          ruleflow-group "UDTBase"
+          no-loop true
+    when
+        //conditions
+         cOut:CreditLineOut();
+         cExt:CreditLineIn(isLocal=="1" && isFemale=="1" && isHasHouse=="1" && age>=30 && age<=45 );
+    then
+        //actions
+        cOut.setTimes(7);
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cExt.setMiddleCode("UDT_0001");
+        update(cExt);
+end
+
+  rule "UDTBase_UDT_0002"
+          ruleflow-group "UDTBase"
+          no-loop true
+    when
+        //conditions
+         cOut:CreditLineOut();
+         cExt:CreditLineIn(isLocal=="1" && isFemale=="1" && isHasHouse=="1" && (age<30 || age>45) );
+    then
+        //actions
+        cOut.setTimes(6);
+		cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cExt.setMiddleCode("UDT_0002");
+        update(cExt);
+end
+
+  rule "UDTBase_UDT_0003"
+          ruleflow-group "UDTBase"
+          no-loop true
+    when
+        //conditions
+         cOut:CreditLineOut();
+         cExt:CreditLineIn(isLocal=="1" && isFemale=="0" && isHasHouse=="1" && age>=30 && age<=45 );
+    then
+        //actions
+        cOut.setTimes(6);
+		cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cExt.setMiddleCode("UDT_0003");
+        update(cExt);
+end
+
+  rule "UDTBase_UDT_0004"
+          ruleflow-group "UDTBase"
+          no-loop true
+    when
+        //conditions
+         cOut:CreditLineOut();
+         cExt:CreditLineIn(isLocal=="0" && isFemale=="0" && isHasHouse=="1" && age>=30 && age<=45 );
+    then
+        //actions
+        cOut.setTimes(5.5);
+		cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cExt.setMiddleCode("UDT_0004");
+        update(cExt);
+end
+  
+   rule "UDTBase_UDT_0005"
+          ruleflow-group "UDTBase"
+          no-loop true
+    when
+        //conditions
+         cOut:CreditLineOut();
+         cExt:CreditLineIn(isLocal=="1" && isFemale=="0" && isHasHouse=="1" && (age<30 || age>45) );
+    then
+        //actions
+        cOut.setTimes(5.5);
+		cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cExt.setMiddleCode("UDT_0005");
+        update(cExt);
+end
+
+ rule "UDTBase_UDT_0006"
+          ruleflow-group "UDTBase"
+          no-loop true
+    when
+        //conditions
+         cOut:CreditLineOut();
+         cExt:CreditLineIn(isLocal=="0" && isFemale=="1" && isHasHouse=="1" && age>=30 && age<=45 );
+    then
+        //actions
+        cOut.setTimes(5.5);
+		cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cExt.setMiddleCode("UDT_0006");
+        update(cExt);
+end
+
+ rule "UDTBase_UDT_0007"
+          ruleflow-group "UDTBase"
+          no-loop true
+    when
+        //conditions
+         cOut:CreditLineOut();
+         cExt:CreditLineIn(isLocal=="1" && isFemale=="1" && isHasHouse=="0" && (age<30 || age>45) );
+    then
+        //actions
+        cOut.setTimes(5);
+		cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cExt.setMiddleCode("UDT_0007");
+        update(cExt);
+end
+
+ rule "UDTBase_UDT_0008"
+          ruleflow-group "UDTBase"
+          no-loop true
+    when
+        //conditions
+         cOut:CreditLineOut();
+         cExt:CreditLineIn(isLocal=="1" && isFemale=="0" && isHasHouse=="0" && age>=30 && age<=45 );
+    then
+        //actions
+        cOut.setTimes(5);
+		cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cExt.setMiddleCode("UDT_0008");
+        update(cExt);
+end
+
+ rule "UDTBase_UDT_0009"
+          ruleflow-group "UDTBase"
+          no-loop true
+    when
+        //conditions
+         cOut:CreditLineOut();
+         cExt:CreditLineIn(isLocal=="0" && isFemale=="1" && isHasHouse=="1" && (age<30 || age>45) );
+    then
+        //actions
+        cOut.setTimes(5);
+		cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cExt.setMiddleCode("UDT_0009");
+        update(cExt);
+end
+
+ rule "UDTBase_UDT_0010"
+          ruleflow-group "UDTBase"
+          no-loop true
+    when
+        //conditions
+         cOut:CreditLineOut();
+         cExt:CreditLineIn(isLocal=="1" && isFemale=="0" && isHasHouse=="0" && (age<30 || age>45) );
+    then
+        //actions
+        cOut.setTimes(5);
+		cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cExt.setMiddleCode("UDT_0010");
+        update(cExt);
+end
+
+ rule "UDTBase_UDT_0011"
+          ruleflow-group "UDTBase"
+          no-loop true
+    when
+        //conditions
+         cOut:CreditLineOut();
+         cExt:CreditLineIn(isLocal=="0" && isFemale=="0" && isHasHouse=="1" && (age<30 || age>45) );
+    then
+        //actions
+        cOut.setTimes(5);
+		cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cExt.setMiddleCode("UDT_0011");
+        update(cExt);
+end
+
+rule "UDTBase_UDT_0012"
+          ruleflow-group "UDTBase"
+          no-loop true
+    when
+        //conditions
+         cOut:CreditLineOut();
+         cExt:CreditLineIn(isLocal=="1" && isFemale=="1" && isHasHouse=="0" && age>=30 && age<=45 );
+    then
+        //actions
+        cOut.setTimes(5);
+		cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cExt.setMiddleCode("UDT_0012");
+        update(cExt);
+end
+
+ rule "UDTBase_UDT_0013"
+          ruleflow-group "UDTBase"
+          no-loop true
+    when
+        //conditions
+         cOut:CreditLineOut();
+         cExt:CreditLineIn(isLocal=="0" && isFemale=="0" && isHasHouse=="0" && (age<30 || age>45) );
+    then
+        //actions
+        cOut.setTimes(4.5);
+		cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cExt.setMiddleCode("UDT_0013");
+        update(cExt);
+end
+
+rule "UDTBase_UDT_0014"
+          ruleflow-group "UDTBase"
+          no-loop true
+    when
+        //conditions
+         cOut:CreditLineOut();
+         cExt:CreditLineIn(isLocal=="0" && isFemale=="1" && isHasHouse=="0" && age>=30 && age<=45 );
+    then
+        //actions
+        cOut.setTimes(4.5);
+		cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cExt.setMiddleCode("UDT_0014");
+        update(cExt);
+end
+
+ rule "UDTBase_UDT_0015"
+          ruleflow-group "UDTBase"
+          no-loop true
+    when
+        //conditions
+         cOut:CreditLineOut();
+         cExt:CreditLineIn(isLocal=="0" && isFemale=="1" && isHasHouse=="0" && (age<30 || age>45) );
+    then
+        //actions
+        cOut.setTimes(4.5);
+		cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cExt.setMiddleCode("UDT_0015");
+        update(cExt);
+end
+
+rule "UDTBase_UDT_0016"
+          ruleflow-group "UDTBase"
+          no-loop true
+    when
+        //conditions
+         cOut:CreditLineOut();
+         cExt:CreditLineIn(isLocal=="0" && isFemale=="0" && isHasHouse=="0" && age>=30 && age<=45 );
+    then
+        //actions
+        cOut.setTimes(4.5);
+		cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cExt.setMiddleCode("UDT_0016");
+        update(cExt);
+end

@@ -1,0 +1,64 @@
+/*created time 2016-4-22
+  @auther xiaoling 
+ **/
+
+
+package CreditLine
+
+
+
+import com.madai.model.approval.CreditLine.CreditLineIn;
+import com.madai.model.approval.CreditLine.CreditLineOut;
+//list any import classes here.
+
+
+//declare any global variables here
+
+rule "EWTBase_Line_EWT00074"
+    ruleflow-group "EWTDsrMoreThrAndSalaryNAAndLess"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(middleCode=="EWT_0001" );
+         cOut:CreditLineOut();  
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(-1);
+        cOut.setAmount(cExt.getIncome()*(-1));
+        cOut.setReturnCode("Line_EWT00074");  
+        update(cOut);    
+end
+rule "EWTBase_Line_EWT00075"
+    ruleflow-group "EWTDsrMoreThrAndSalaryNAAndLess"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(middleCode=="EWT_0002" );
+         cOut:CreditLineOut();  
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(-1);
+        cOut.setAmount(cExt.getIncome()*(-1));
+        cOut.setReturnCode("Line_EWT00075");  
+        update(cOut);    
+end
+rule "EWTBase_Line_EWT00076"
+    ruleflow-group "EWTDsrMoreThrAndSalaryNAAndLess"
+    no-loop true
+    when
+        //conditions
+         cExt:CreditLineIn(middleCode=="EWT_0003" );
+         cOut:CreditLineOut();  
+    then
+        //actions
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setTimes(-1);
+        cOut.setAmount(cExt.getIncome()*(-1));
+        cOut.setReturnCode("Line_EWT00076"); 
+        update(cOut);     
+end

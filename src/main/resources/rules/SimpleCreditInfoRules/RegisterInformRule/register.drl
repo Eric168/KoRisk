@@ -1,0 +1,13 @@
+//created on: 2016-03-28
+package RegisterInformRule
+
+import com.madai.model.SimpleCreditInfo;
+import com.madai.model.ResponseResult;
+//list any import classes here.
+
+
+
+//declare any global variables here
+global java.util.List responseResultList;
+
+ 

@@ -1,0 +1,497 @@
+//created on: 2016-02-03
+package SimpleCreditInfoRules
+
+import com.madai.model.SimpleCreditInfo;
+import com.madai.model.ResponseResult;
+//list any import classes here.
+import com.madai.model.approval.CreditBusiness.CreditBusinessResult;
+import com.madai.model.approval.CreditBusiness.CreditParticular;
+import com.madai.utils.CollectionUtils;
+
+//declare any global variables here
+global java.util.List responseResultList;
+
+ 
+ rule "OverDueRefuseOver1"
+      ruleflow-group "refuse_warn"
+     when
+       sCI:SimpleCreditInfo(loan60PastdueM301Cnt+card60PastdueM301Cnt>=1) 
+     then
+       //System.out.println("refuse_warn  RWD-W00001!");
+        ResponseResult result=new ResponseResult();
+        
+        result.setReturnCode("RWD-W00001");
+        result.setRemark("贷款出现90天的逾期一次或贷记卡出现90天的逾期一次");
+        result.setType("2");
+        result.setId(sCI.getIdCardNo());
+        responseResultList.add(result);
+ end
+ 
+ rule "OverDue6In5Year"
+      ruleflow-group "refuse_warn"
+     when
+       sCI:SimpleCreditInfo(loan60PastdueFrequency+card60PastdueFrequency>=6) 
+     then
+       //System.out.println("refuse_warn  RWD-W00002!");
+        ResponseResult result=new ResponseResult();
+        
+        result.setReturnCode("RWD-W00002");
+        result.setRemark("贷款和贷记卡出现逾期的次数之和大于等于6次");
+        result.setType("2");
+        result.setId(sCI.getIdCardNo());
+        responseResultList.add(result);
+ end
+ 
+
+  
+ rule "DebitCardCurrentOverdue"
+      ruleflow-group "refuse_warn"
+     when
+       sCI:SimpleCreditInfo(cardPastdueCnt>=1) 
+     then
+       //System.out.println("refuse_warn  RWD-W00004!");
+        ResponseResult result=new ResponseResult();
+        
+        result.setReturnCode("RWD-W00004");
+        result.setRemark("贷记卡有当前逾期");
+        result.setType("2");
+        result.setId(sCI.getIdCardNo());
+        responseResultList.add(result);
+ end
+ 
+
+ rule "SemiCreditCardCurrentOverdue"
+      ruleflow-group "refuse_warn"
+     when
+       sCI:SimpleCreditInfo(semiCardPastdueCnt>=1) 
+     then
+       //System.out.println("refuse_warn  RWD-W00006!");
+        ResponseResult result=new ResponseResult();
+        
+        result.setReturnCode("RWD-W00006");
+        result.setRemark("准贷记卡当前逾期");
+        result.setType("2");
+        result.setId(sCI.getIdCardNo());
+        responseResultList.add(result);
+ end 
+
+
+ rule "LoanCurrentOverdue"
+      ruleflow-group "refuse_warn"
+     when
+       sCI:SimpleCreditInfo(loanPastdueCnt>=1) 
+     then
+       //System.out.println("refuse_warn  RWD-W00009!");
+        ResponseResult result=new ResponseResult();
+        
+        result.setReturnCode("RWD-W00009");//change by wong 2016-03-29 12:00 由RWD-R00009改为RWD-W00009
+        result.setRemark("贷款有当前逾期");
+        result.setType("2");
+        result.setId(sCI.getIdCardNo());
+        responseResultList.add(result);
+ end
+ 
+ rule "AreaAndBranch"
+      ruleflow-group "refuse_warn"
+    when
+        //conditions
+        sCI:SimpleCreditInfo((idCardNo.substring(0,6) in("350902","350981","350982","350922","350921","350925","350924","350923","350926","350424"))
+                            ||(mateIdCardNo!=null&& !mateIdCardNo.equals("")&& branchCode!="15"&&mateIdCardNo.substring(0,6) in("350902","350981","350982","350922","350921","350925","350924","350923","350926","350424")));
+    then
+        //actions
+        //System.out.println("refuse_warn  RWD-R00006!");
+        ResponseResult result=new ResponseResult();
+        
+        result.setReturnCode("RWD-R00006");
+         //result.setRefuseCode("RCD-01");      
+        //result.setRemark("客户及客户配偶为福建高风险地区户籍");
+        result.setRefuseCode("R723");
+        result.setRemark("关联人或关联职业核实为禁入行业/限制职业");
+        result.setType("1");
+        result.setId(sCI.getIdCardNo());
+        responseResultList.add(result);
+ end   
+ 
+  rule "GroupLevel"
+      ruleflow-group "refuse_warn"
+    when
+        //conditions
+        sCI:SimpleCreditInfo(groupLevel=="F");//  || groupLevel=="E" 
+    then
+        //actions
+        //System.out.println("refuse_warn  RWD-R00007!");
+        ResponseResult result=new ResponseResult();
+        
+        result.setReturnCode("RWD-R00007");
+        //result.setRefuseCode("RCL-01");
+        //result.setRemark("综合评分不足");
+        result.setRefuseCode("R751");
+        result.setRemark("评分卡评分不及格");
+        result.setType("1");
+        result.setId(sCI.getIdCardNo());
+        responseResultList.add(result);
+ end  
+rule "Loan_RWD-W00010"
+      ruleflow-group "refuse_warn"
+     when
+       CBRT:CreditBusinessResult(loanPastdueAmountMore250Count>=1);
+     then
+       // System.out.println("refuse_warn  RWD-W000010!");
+        ResponseResult result=new ResponseResult();
+        result.setReturnCode("RWD-W00010");
+        result.setId(CBRT.getAppId());
+        result.setType("2");
+        result.setRemark("贷款有当前逾期，且逾期金额大于250");        
+        responseResultList.add(result);
+end
+ 
+rule "Loan_RWD-PR00001"
+      ruleflow-group "refuse_warn"
+     when
+       CBRT:CreditBusinessResult(loanPastdueLess90Less01YearCount>=1);
+     then
+       //System.out.println("refuse_warn  RWD-PR00001!");
+        ResponseResult result=new ResponseResult();
+        result.setReturnCode("RWD-PR00001");
+        result.setId(CBRT.getAppId());
+        result.setType("6");
+        result.setRemark("贷款历史发生过逾期记录，但未超过90天，以下情况需拒绝：贷款发放时间≤1年，且逾期月份数≥已还款月份数的50%");
+        responseResultList.add(result);
+end
+ 
+rule "Loan_RWD-PR00002"
+      ruleflow-group "refuse_warn"
+     when
+       CBRT:CreditBusinessResult(loanRecordTotalCount>=1 && loanPastdueLess90More01More10MonthCount==loanRecordTotalCount ); 
+     then
+       //System.out.println("refuse_warn  RWD-PR00002!");
+        ResponseResult result=new ResponseResult();
+        result.setReturnCode("RWD-PR00002");
+        result.setId(CBRT.getAppId());
+        result.setType("6");
+        result.setRemark("贷款历史发生过逾期记录，但未超过90天，以下情况需拒绝：贷款发放时间超过1年 ， 逾期月份数≥已还款月份数的50% 或 逾期月份数≥10个月");
+        responseResultList.add(result);
+end
+ 
+rule "Loan_RWD-PR00003"
+      ruleflow-group "refuse_warn"
+     when
+       CBRT:CreditBusinessResult(loanPastdueLess90More01More50Or10Count>=1); 
+     then
+       //System.out.println("refuse_warn  RWD-PR00003!");
+        ResponseResult result=new ResponseResult();
+        result.setReturnCode("RWD-PR00003");
+        result.setId(CBRT.getAppId());
+        result.setType("6");
+        result.setRemark("贷款历史发生过逾期记录,但未超过90天,以下情况需拒绝:贷款发放时间超过1年,同时符合以下a、b、c、点，直接拒绝;a)逾期月份数≥已还款月份数的50% 或 逾期月份数≥10个月;b)结清时间或信息截至时间在近1年以内 ;c)结清日期以后或截至时间当月及以后无发放新的贷记卡或贷款（农户贷款、低于5000元的消费分期除外)");
+        responseResultList.add(result);
+end
+
+rule "Loan_RWD-PR00004"
+      ruleflow-group "refuse_warn"
+     when
+       CBRT:CreditBusinessResult(loanPastdueMore90More01YearMore01Count>=1); 
+     then
+       //System.out.println("refuse_warn  PR00004!");
+        ResponseResult result=new ResponseResult();
+        result.setReturnCode("RWD-PR00004");
+        result.setId(CBRT.getAppId());
+        result.setType("6");
+        result.setRemark("贷款历史曾有90天以上的逾期记录，以下情况需拒绝：贷款发放时间≤1年，超过90天的逾期月份数≥1次；");
+        responseResultList.add(result);
+end
+ 
+rule "Loan_RWD-PR00005"
+      ruleflow-group "refuse_warn"
+     when
+       CBRT:CreditBusinessResult(loanPastdueMore90More01Less02YearMore02Count>=1); 
+     then
+       //System.out.println("refuse_warn  RWD-PR00005!");
+        ResponseResult result=new ResponseResult();
+        result.setReturnCode("RWD-PR00005");
+        result.setId(CBRT.getAppId());
+        result.setType("6");
+        result.setRemark("贷款历史曾有90天以上的逾期记录，以下情况需拒绝:1年＜贷款发放时间≤2年，超过90天的逾期月份数≥2次");
+        responseResultList.add(result);
+end   
+ 
+rule "Loan_RWD-PR00006"
+      ruleflow-group "refuse_warn"
+     when
+       CBRT:CreditBusinessResult(loanPastdueMore90More02YearMore02Count>=1); 
+     then
+       //System.out.println("refuse_warn  RWD-PR00006!");
+        ResponseResult result=new ResponseResult();
+        result.setReturnCode("RWD-PR00006");
+        result.setId(CBRT.getAppId());
+        result.setType("6");
+        result.setRemark("贷款历史曾有90天以上的逾期记录，以下情况需拒绝：贷款发放时间＞2年，超过90天的逾期月份数≥2次，结清日期以后或截至时间当月及以后无发放新的贷记卡或贷款（农户贷款、低于5000元的消费分期除外 )");
+        responseResultList.add(result);
+end 
+
+rule "Loan_RWD-PR00007"
+      ruleflow-group "refuse_warn"
+     when
+       CBRT:CreditBusinessResult(loanNongHuAppearNowLoanCount==loanRecordCutPay24MTotalCount && loanRecordTotalCount==recordTotalCount && loanRecordCutPay24MTotalCount>=1); 
+       CBTR:CreditParticular(pastdueBy60Cnt>0) from CollectionUtils.getFirstElementList(CBRT.loanCutPayMore24MonthList);
+     then
+       //System.out.println("refuse_warn  RWD-PR00007!");
+        ResponseResult result=new ResponseResult();
+        result.setReturnCode("RWD-PR00007");
+        result.setId(CBRT.getAppId());
+        result.setType("6");
+        result.setRemark("最后一条农户性质贷款有‘最近5年逾期月数’> 0");
+        responseResultList.add(result);
+end 
+ rule "white_RWD-PR00017"
+     ruleflow-group "refuse_warn"
+     when
+       CBRT:CreditBusinessResult(whiteNoRecord==1); 
+     then
+        ResponseResult result=new ResponseResult();
+        result.setReturnCode("RWD-PR00017");
+        result.setRemark("无任何信用记录");
+        result.setId(CBRT.getAppId());
+        result.setType("6");
+        responseResultList.add(result);
+ end
+ 
+ rule "white_RWD-PR00018"
+      ruleflow-group "refuse_warn"
+     when
+       CBRT:CreditBusinessResult(whiteHasRecAllJqXhMore02YearCount==recordTotalCount && whiteHasRecAllJqXhMore02YearCount>0);
+     then
+        ResponseResult result=new ResponseResult();
+        result.setReturnCode("RWD-PR00018");
+        result.setRemark("历史有信用记录，但已全部结清或者销户，且结清销户时间在2年以上");
+        result.setId(CBRT.getAppId());
+        result.setType("6");
+        responseResultList.add(result);
+ end
+ 
+ rule "white_RWD-PR00019"
+      ruleflow-group "refuse_warn"
+     when
+       CBRT:CreditBusinessResult(whiteAllCardWjhReportQueryLess03MonthCount==recordTotalCount && whiteAllCardWjhReportQueryLess03MonthCount>0);
+     then
+        ResponseResult result=new ResponseResult();
+        result.setReturnCode("RWD-PR00019");
+        result.setRemark("当前所有的信用卡未激活且所有贷款发放时间距离查询报告时间不足3个月");
+        result.setId(CBRT.getAppId());
+        result.setType("6");
+        responseResultList.add(result);
+end
+
+ rule "white_RWD-PR00020"
+      ruleflow-group "refuse_warn"
+     when
+       CBRT:CreditBusinessResult(whiteAllCardLess03banlce0JqOver02Count==recordTotalCount && whiteAllCardLess03banlce0JqOver02Count>0);
+     then
+        ResponseResult result=new ResponseResult();
+        result.setReturnCode("RWD-PR00020");
+        result.setRemark("当前有发放信用卡，但发放时间距离报告时间不满3个月，且透支余额为0.且全部贷款结清时间在2年以上");
+        result.setId(CBRT.getAppId());
+        result.setType("6");
+        responseResultList.add(result);
+end
+
+ rule "white_RWD-D00008"
+      ruleflow-group "refuse_warn"
+     when
+       CBRT:CreditBusinessResult(otherEndBefApplyDateNhLoanMore1WCount>0 && notOtherLoanAndFarmerLoanTotalCount==0);
+     then
+        ResponseResult result=new ResponseResult();
+        result.setReturnCode("RWD-D00008");
+        result.setRemark("到期贷款未显示结清，需提供结清证明");
+        result.setId(CBRT.getAppId());
+        result.setType("3");
+        responseResultList.add(result);
+end
+
+ rule "white_RWD-PR00021"
+      ruleflow-group "refuse_warn"
+     when
+       CBRT:CreditBusinessResult(other3MonthQueryEXProductMore6Count>0);
+     then
+        ResponseResult result=new ResponseResult();
+        result.setReturnCode("RWD-PR00021");
+        result.setRemark("近3个月查询次数:E网通，E社通，E房通产品大于等于6次直接拒绝");
+        result.setId(CBRT.getAppId());
+        result.setType("6");
+        responseResultList.add(result);
+end
+
+ rule "white_RWD-PR00022"
+      ruleflow-group "refuse_warn"
+     when
+       CBRT:CreditBusinessResult(other3MonthQueryUProductMore8Count>0);
+     then
+        ResponseResult result=new ResponseResult();
+        result.setReturnCode("RWD-PR00022");
+        result.setRemark("近3个月查询次数:U贷通，E保通产品大于等于8次直接拒绝");
+        result.setId(CBRT.getAppId());
+        result.setType("6");
+        responseResultList.add(result);
+end
+
+ rule "white_RWD-W00012"
+      ruleflow-group "refuse_warn"
+     when
+       CBRT:CreditBusinessResult(other24MonthQueryMore24Count>0);
+     then
+        ResponseResult result=new ResponseResult();
+        result.setReturnCode("RWD-W00012");
+        result.setRemark("2年内的信用卡审批查询次数超过24次");
+        result.setId(CBRT.getAppId());
+        result.setType("2");
+        responseResultList.add(result);
+end 
+rule "Credit_RWD-W00011"
+	ruleflow-group "refuse_warn"
+    when
+        CBRT:CreditBusinessResult(cardNowPastdueMore250NoHistoryMore6Count > 0);
+    then
+    	ResponseResult result=new ResponseResult();
+        result.setReturnCode("RWD-W00011");
+         result.setId(CBRT.getAppId());
+        result.setType("2");
+        result.setRemark("贷记卡有当前逾期，且逾期金额大于250");
+        responseResultList.add(result);
+end
+
+rule "Credit_RWD-PR00008"
+	ruleflow-group "refuse_warn"
+    when
+        CBRT:CreditBusinessResult(cardNowPastdueMore250NoHistoryLess6Count >0);
+    then 
+        ResponseResult result=new ResponseResult();
+        result.setReturnCode("RWD-PR00008");
+        result.setId(CBRT.getAppId());
+        result.setType("6");
+        result.setRemark("贷记卡当前逾期，且显示单张卡当前逾期金额大于250元，且当前无从未逾期过的贷记卡或贷款（已使用额度为0、农户贷款、未激活、低于5000元的消费分期，使用记录不足半年除外，逾期的信用卡发放时间距离信息截至时间小于等6个月就直接拒绝");
+        responseResultList.add(result);
+end
+
+//::6
+rule "Credit_RWD-PR00009"
+	ruleflow-group "refuse_warn"
+    when
+        CBRT:CreditBusinessResult(cardDzZfMore250Count > 0);
+    then 
+		ResponseResult result=new ResponseResult();
+        result.setReturnCode("RWD-PR00009");
+        result.setId(CBRT.getAppId());
+        result.setType("6");
+        result.setRemark("贷记卡账户状态止付或呆账，且在止付或呆账下其余额大于250元（单张卡）符合不良标准，直接拒绝");
+        responseResultList.add(result);
+end
+
+//::7
+rule "Credit_RWD-PR00010"
+	ruleflow-group "refuse_warn"
+    when
+        CBRT:CreditBusinessResult(cardDzZfLess250OverXhNoNewCount > 0);
+    then 
+		ResponseResult result=new ResponseResult();
+        result.setReturnCode("RWD-PR00010");
+        result.setId(CBRT.getAppId());
+        result.setType("6");
+        result.setRemark("贷记卡账户状态止付或呆账，且在止付或呆账下其余额小于250元，销户日期以后或截至时间当月及以后无发放新的贷记卡或贷款（农户贷款、低于5000元的消费分期除外）（单张卡），直接拒绝");
+        responseResultList.add(result);
+end
+
+//::8
+rule "Credit_RWD-PR00011"
+	ruleflow-group "refuse_warn"
+    when
+        CBRT:CreditBusinessResult(cardPastdueMore90Less01YMore50Count>0);
+    then 
+		ResponseResult result=new ResponseResult();
+        result.setReturnCode("RWD-PR00011");
+        result.setId(CBRT.getAppId());
+        result.setType("6");
+        result.setRemark("贷记卡历史发生过逾期，但未超过90天，以下情况需拒绝：1、贷记卡发放时间≤1年，逾期月份数≥发卡月份数的50%（单张卡）");
+        responseResultList.add(result);
+end
+
+//::9
+rule "Credit_RWD-PR00012"
+	ruleflow-group "refuse_warn"
+    when
+        CBRT:CreditBusinessResult(cardPastdueLess90More01YMore50ACount == creditCardCutPayMore24MonthTotalCount && cardPastdueLess90More01YMore50ACount > 0);
+    then 
+		ResponseResult result=new ResponseResult();
+        result.setReturnCode("RWD-PR00012");
+        result.setId(CBRT.getAppId());
+        result.setType("6");
+        result.setRemark("贷记卡历史发生过逾期，但未超过90天，以下情况需拒绝: 贷记卡发放时间超过1年，若仅有a类还款记录，可直接拒绝，（单张卡）a)逾期月份数≥发卡月份数的50% 或 逾期月份数≥12个月；");
+        responseResultList.add(result);
+end
+
+//::10
+rule "Credit_RWD-PR00013"
+	ruleflow-group "refuse_warn"
+    when
+        CBRT:CreditBusinessResult(cardPastdueLess90More01YMore50ABCDCount > 0);
+    then 
+		ResponseResult result=new ResponseResult();
+        result.setReturnCode("RWD-PR00013");
+        result.setId(CBRT.getAppId());
+        result.setType("6");
+        result.setRemark("贷记卡历史发生过逾期，但未超过90天，发放时间超过1年，同时符合以下a、b、c、d点，拒绝处理（单张卡）a)逾期月份数≥发卡月份数的50% 或 逾期月份数≥12个月；b)授信额度大于500元（已销户的账户默认授信额度大于500元）；c)销户时间或信息截至时间在近1年以内；d)销户日期以后或截至时间当月及以后无发放新的贷记卡或贷款（农户贷款、低于5000元的消费分期除外）");
+        responseResultList.add(result);
+end
+
+//::11
+rule "Credit_RWD-PR00014"
+	ruleflow-group "refuse_warn"
+    when
+        CBRT:CreditBusinessResult(cardPastdueMore90Less01Y90More01Count > 0);
+    then 
+		ResponseResult result=new ResponseResult();
+        result.setReturnCode("RWD-PR00014");
+        result.setId(CBRT.getAppId());
+        result.setType("6");
+        result.setRemark("贷记卡历史曾有90天以上的逾期记录，以下情况需拒绝：贷记卡发放时间≤1年，超过90天的逾期月份数≥1次");
+        responseResultList.add(result);
+end
+
+//::12
+rule "Credit_RWD-PR00015"
+	ruleflow-group "refuse_warn"
+    when
+        CBRT:CreditBusinessResult(cardPastdueMore90More01Less02Y90More02Count > 0);
+    then 
+		ResponseResult result=new ResponseResult();
+        result.setReturnCode("RWD-PR00015");
+        result.setId(CBRT.getAppId());
+        result.setType("6");
+        result.setRemark("贷记卡历史曾有90天以上的逾期记录，以下情况需拒绝：1年＜贷记卡发放时间≤2年，超过90天的逾期月份数≥2次");
+        responseResultList.add(result);
+end
+
+rule "Credit_RWD-PR00023"
+	ruleflow-group "refuse_warn"
+    when
+        CBRT:CreditBusinessResult(cardPastdueMore90More02YMore02OverNoNewCount > 0);
+    then 
+		ResponseResult result=new ResponseResult();
+        result.setReturnCode("RWD-PR00023");
+        result.setId(CBRT.getAppId());
+        result.setType("6");
+        result.setRemark("贷记卡历史曾有90天以上的逾期记录，以下情况需拒绝：贷记卡发放时间＞2年，超过90天的逾期月份数≥2次，销户日期以后或截至时间当月及以后无发放新的贷记卡或贷款（农户贷款、低于5000元的消费分期除外）");
+        responseResultList.add(result);
+end
+
+rule "Credit_RWD-PR00016"
+	ruleflow-group "refuse_warn"
+    when
+        CBRT:CreditBusinessResult(cardMore250Pastdue90More02OverNoNewCount > 0);
+    then 
+		ResponseResult result=new ResponseResult();
+        result.setReturnCode("RWD-PR00016");
+        result.setId(CBRT.getAppId());
+        result.setType("6");
+        result.setRemark("透支余额大于250元（已销户的账户默认透支余额大于250元），且有过90天以上逾期记录≥2个月，且销户日期以后或截至时间当月及以后无发放新的贷记卡或贷款（农户贷款、低于5000元的消费分期除外）");
+        responseResultList.add(result);
+end

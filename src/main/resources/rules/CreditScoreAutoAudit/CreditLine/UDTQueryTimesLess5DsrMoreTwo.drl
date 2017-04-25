@@ -1,0 +1,283 @@
+//created on: 2016-03-28
+package CreditLine
+
+import com.madai.model.approval.CreditLine.CreditLineIn;
+import com.madai.model.approval.CreditLine.CreditLineOut;
+//list any import classes here.
+
+//UDTDsrMoreTwo
+
+//declare any global variables here
+ //UDTDsrMoreTwo
+  rule "UDTDsrMoreTwo_Line_UDT00065"
+          ruleflow-group "UDTDsrMoreTwo"
+          no-loop true
+    when
+        //conditions
+         cOut:CreditLineOut();
+         cExt:CreditLineIn(middleCode=="UDT_0001" );
+    then
+        //actions
+        
+        cOut.setTimes(-1);
+        cOut.setAmount((-1)*cExt.getIncome());
+        cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setReturnCode("Line_UDT00065");
+        update(cOut);
+end
+
+  rule "UDTDsrMoreTwo_Line_UDT00066"
+          ruleflow-group "UDTDsrMoreTwo"
+          no-loop true
+    when
+        //conditions
+         cOut:CreditLineOut();
+         cExt:CreditLineIn(middleCode=="UDT_0002" );
+    then
+        //actions
+        cOut.setTimes(-1);
+        cOut.setAmount((-1)*cExt.getIncome());
+		cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setReturnCode("Line_UDT00066");
+        update(cOut);
+end
+
+  rule "UDTDsrMoreTwo_Line_UDT00067"
+          ruleflow-group "UDTDsrMoreTwo"
+          no-loop true
+    when
+        //conditions
+         cOut:CreditLineOut();
+         cExt:CreditLineIn(middleCode=="UDT_0003"  );
+    then
+        //actions
+        cOut.setTimes(-1);
+        cOut.setAmount((-1)*cExt.getIncome());
+		cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setReturnCode("Line_UDT00067");
+        update(cOut);
+end
+
+  rule "UDTDsrMoreTwo_Line_UDT00068"
+          ruleflow-group "UDTDsrMoreTwo"
+          no-loop true
+    when
+        //conditions
+         cOut:CreditLineOut();
+         cExt:CreditLineIn(middleCode=="UDT_0004"  );
+    then
+        //actions
+        cOut.setTimes(-1);
+        cOut.setAmount((-1)*cExt.getIncome());
+		cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setReturnCode("Line_UDT00068");
+        update(cOut);
+end
+  
+   rule "UDTDsrMoreTwo_Line_UDT00069"
+          ruleflow-group "UDTDsrMoreTwo"
+          no-loop true
+    when
+        //conditions
+         cOut:CreditLineOut();
+         cExt:CreditLineIn(middleCode=="UDT_0005" );
+    then
+        //actions
+        cOut.setTimes(-1);
+        cOut.setAmount((-1)*cExt.getIncome());
+		cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setReturnCode("Line_UDT00069");
+        update(cOut);
+end
+
+ rule "UDTDsrMoreTwo_Line_UDT00070"
+          ruleflow-group "UDTDsrMoreTwo"
+          no-loop true
+    when
+        //conditions
+         cOut:CreditLineOut();
+         cExt:CreditLineIn(middleCode=="UDT_0006"  );
+    then
+        //actions
+        cOut.setTimes(-1);
+        cOut.setAmount((-1)*cExt.getIncome());
+		cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setReturnCode("Line_UDT00070");
+        update(cOut);
+end
+
+ rule "UDTDsrMoreTwo_Line_UDT00071"
+          ruleflow-group "UDTDsrMoreTwo"
+          no-loop true
+    when
+        //conditions
+         cOut:CreditLineOut();
+         cExt:CreditLineIn(middleCode=="UDT_0007" );
+    then
+        //actions
+        cOut.setTimes(-1);
+        cOut.setAmount((-1)*cExt.getIncome());
+		cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setReturnCode("Line_UDT00071");
+        update(cOut);
+end
+
+ rule "UDTDsrMoreTwo_Line_UDT00072"
+          ruleflow-group "UDTDsrMoreTwo"
+          no-loop true
+    when
+        //conditions
+         cOut:CreditLineOut();
+         cExt:CreditLineIn(middleCode=="UDT_0008"  );
+    then
+        //actions
+        cOut.setTimes(-1);
+        cOut.setAmount((-1)*cExt.getIncome());
+		cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setReturnCode("Line_UDT00072");
+        update(cOut);
+end
+
+ rule "UDTDsrMoreTwo_Line_UDT00073"
+          ruleflow-group "UDTDsrMoreTwo"
+          no-loop true
+    when
+        //conditions
+         cOut:CreditLineOut();
+         cExt:CreditLineIn(middleCode=="UDT_0009"  );
+    then
+        //actions
+        cOut.setTimes(-1);
+        cOut.setAmount((-1)*cExt.getIncome());
+		cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setReturnCode("Line_UDT00073");
+        update(cOut);
+end
+
+ rule "UDTDsrMoreTwo_Line_UDT00074"
+          ruleflow-group "UDTDsrMoreTwo"
+          no-loop true
+    when
+        //conditions
+         cOut:CreditLineOut();
+         cExt:CreditLineIn(middleCode=="UDT_0010"  );
+    then
+        //actions
+        cOut.setTimes(-1);
+        cOut.setAmount((-1)*cExt.getIncome());
+		cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setReturnCode("Line_UDT00074");
+        update(cOut);
+end
+
+ rule "UDTDsrMoreTwo_Line_UDT00075"
+          ruleflow-group "UDTDsrMoreTwo"
+          no-loop true
+    when
+        //conditions
+         cOut:CreditLineOut();
+         cExt:CreditLineIn(middleCode=="UDT_0011"  );
+    then
+        //actions
+        cOut.setTimes(-1);
+        cOut.setAmount((-1)*cExt.getIncome());
+		cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setReturnCode("Line_UDT00075");
+        update(cOut);
+end
+
+rule "UDTDsrMoreTwo_Line_UDT00076"
+          ruleflow-group "UDTDsrMoreTwo"
+          no-loop true
+    when
+        //conditions
+         cOut:CreditLineOut();
+         cExt:CreditLineIn(middleCode=="UDT_0012" );
+    then
+        //actions
+        cOut.setTimes(-1);
+        cOut.setAmount((-1)*cExt.getIncome());
+		cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setReturnCode("Line_UDT00076");
+        update(cOut);
+end
+
+ rule "UDTDsrMoreTwo_Line_UDT00077"
+          ruleflow-group "UDTDsrMoreTwo"
+          no-loop true
+    when
+        //conditions
+         cOut:CreditLineOut();
+         cExt:CreditLineIn(middleCode=="UDT_0013"  );
+    then
+        //actions
+        cOut.setTimes(-1);
+        cOut.setAmount((-1)*cExt.getIncome());
+		cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setReturnCode("Line_UDT00077");
+        update(cOut);
+end
+
+rule "UDTDsrMoreTwo_Line_UDT00078"
+          ruleflow-group "UDTDsrMoreTwo"
+          no-loop true
+    when
+        //conditions
+         cOut:CreditLineOut();
+         cExt:CreditLineIn(middleCode=="UDT_0014" );
+    then
+        //actions
+        cOut.setTimes(-1);
+        cOut.setAmount((-1)*cExt.getIncome());
+		cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setReturnCode("Line_UDT00078");
+        update(cOut);
+end
+
+ rule "UDTDsrMoreTwo_Line_UDT00079"
+          ruleflow-group "UDTDsrMoreTwo"
+          no-loop true
+    when
+        //conditions
+         cOut:CreditLineOut();
+         cExt:CreditLineIn(middleCode=="UDT_0015"  );
+    then
+        //actions
+        cOut.setTimes(-1);
+        cOut.setAmount((-1)*cExt.getIncome());
+		cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setReturnCode("Line_UDT00079");
+        update(cOut);
+end
+
+rule "UDTDsrMoreTwo_Line_UDT00080"
+          ruleflow-group "UDTDsrMoreTwo"
+          no-loop true
+    when
+        //conditions
+         cOut:CreditLineOut();
+         cExt:CreditLineIn(middleCode=="UDT_0016" );
+    then
+        //actions
+        cOut.setTimes(-1);
+        cOut.setAmount((-1)*cExt.getIncome());
+		cOut.setAppId(cExt.getAppId());
+        cOut.setProductCode(cExt.getProductCode());
+        cOut.setReturnCode("Line_UDT00080");
+        update(cOut);
+end

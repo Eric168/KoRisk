@@ -1,0 +1,39 @@
+//created on: 2016-1-8
+package myrules
+
+import com.sample.model.Employ;
+//list any import classes here.
+
+
+
+//declare any global variables here
+
+
+
+
+rule "Award"
+      ruleflow-group "award_punish"
+    when
+        //conditions
+        emp:Employ(awardPunish=="award")
+    then
+        //actions
+        System.out.println("exec rule Award!");
+        emp.setPercent(1.10);
+
+end
+
+rule "Punishment"
+    //include attributes such as "salience" here...
+     ruleflow-group "award_punish"
+   when
+        //conditions
+        emp:Employ(educationInfo=="punish")
+    then
+        //actions
+        System.out.println("exec rule award_punish!");
+        emp.setPercent(0.90);
+
+end
+
+

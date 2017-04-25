@@ -1,0 +1,255 @@
+//created on: 2016-3-18
+package autoAuditOneCreditScore
+
+//list any import classes here.
+import com.madai.model.approval.CreditScoreAutoAuditOneExtendIn;
+import java.lang.Math;
+import java.lang.Double;
+import java.lang.String;
+import java.math.BigDecimal;
+//declare any global variables here
+
+
+rule "sex_1_man"
+          ruleflow-group "modelOneConvert"
+    when
+        //conditions
+         cExt:CreditScoreAutoAuditOneExtendIn(gender=="214");
+    then
+        //actions
+        cExt.setSex_1(1);
+end
+
+rule "sex_1_woman"
+          ruleflow-group "modelOneConvert"
+    when
+        //conditions
+         cExt:CreditScoreAutoAuditOneExtendIn(gender=="215");
+    then
+        //actions
+        cExt.setSex_1(0);
+end
+
+rule "degree_1"
+          ruleflow-group "modelOneConvert"
+    when
+        //conditions
+         cExt:CreditScoreAutoAuditOneExtendIn(degree in("231","232"));
+    then
+        //actions
+        cExt.setDegree_1(1);
+end
+
+rule "house_2"
+          ruleflow-group "modelOneConvert"
+    when
+        //conditions
+         cExt:CreditScoreAutoAuditOneExtendIn(houseType in("219","220"));
+    then
+        //actions
+        cExt.setHouse_2(1);
+end
+
+rule "area_1"
+          ruleflow-group "modelOneConvert"
+    when
+        //conditions
+         cExt:CreditScoreAutoAuditOneExtendIn(region in("ECR"));
+    then
+        //actions
+        cExt.setArea_1(1);
+end
+
+rule "citycategory_1"
+          ruleflow-group "modelOneConvert"
+    when
+        //conditions
+         cExt:CreditScoreAutoAuditOneExtendIn(cityCategory in("CL001"));
+    then
+        //actions
+        cExt.setCitycategory_1(1);
+end
+
+rule "s2yquery_convert1"
+          ruleflow-group "modelOneConvert"
+          salience 8
+    when
+        //conditions
+         cExt:CreditScoreAutoAuditOneExtendIn(selfQuery24MonthFrequency+orgQuery24MonthFrequency==0);
+    then
+        //actions
+        cExt.setS2yquery(2);    
+end
+
+rule "s2yquery_convert2"
+          ruleflow-group "modelOneConvert"
+          salience 7
+    when
+        //conditions
+         cExt:CreditScoreAutoAuditOneExtendIn(selfQuery24MonthFrequency+orgQuery24MonthFrequency>0);
+    then
+        //actions
+        cExt.setS2yquery(cExt.getSelfQuery24MonthFrequency()+cExt.getOrgQuery24MonthFrequency());
+end  
+
+rule "s2yquery_sqrt"
+          ruleflow-group "modelOneConvert"
+          salience 6
+    when
+        //conditions
+         cExt:CreditScoreAutoAuditOneExtendIn();
+    then
+        //actions
+        cExt.setS2yquery_sqrt(Math.sqrt(cExt.getS2yquery()));
+end
+
+rule "s3mquery_convert"
+          ruleflow-group "modelOneConvert"
+    when
+        //conditions
+         cExt:CreditScoreAutoAuditOneExtendIn();
+    then
+        //actions
+        cExt.setS3mquery(cExt.getSelfQuery03MonthFrequencyRaw()+cExt.getOrgQuery03MonthFrequency());
+end 
+
+rule "m24_ccap_reject_cn_2"
+          ruleflow-group "modelOneConvert"
+    when
+        //conditions
+         cExt:CreditScoreAutoAuditOneExtendIn(cardReject24MonthFrequency>1);
+    then
+        //actions
+        cExt.setM24_ccap_reject_cn_2(1);
+end
+
+
+rule "work_time_1"
+          ruleflow-group "modelOneConvert"
+    when
+        //conditions
+         cExt:CreditScoreAutoAuditOneExtendIn(currentWorkMonth<40);
+    then
+        //actions
+        cExt.setWork_time_1(1);
+end
+
+rule "cc_1st_open_intvl"
+          ruleflow-group "modelOneConvert"
+    when
+        //conditions
+         cExt:CreditScoreAutoAuditOneExtendIn(cardFirstOpenMonth>70);
+    then
+        //actions
+        cExt.setCc_1st_open_intvl(70);
+end
+
+rule "cc_1st_open_intvl_less_70"
+          ruleflow-group "modelOneConvert"
+    when
+        //conditions
+         cExt:CreditScoreAutoAuditOneExtendIn(cardFirstOpenMonth<=70);
+    then
+        //actions
+        cExt.setCc_1st_open_intvl(cExt.getCardFirstOpenMonth());
+end
+
+rule "cc_overdraw_rate_r_1_one"
+          ruleflow-group "modelOneConvert"
+          salience 5
+          no-loop true
+    when
+        //conditions
+         cExt:CreditScoreAutoAuditOneExtendIn(cardCreditUsedPercent!=null && cardCreditUsedPercent.compareTo(new BigDecimal(1))>0);
+    then
+        //actions
+        cExt.setCardCreditUsedPercentDouble(1);
+        update(cExt);
+end
+
+rule "cc_overdraw_rate_r_1_zero"
+          ruleflow-group "modelOneConvert"
+          salience 4
+          no-loop true
+    when
+        //conditions
+         cExt:CreditScoreAutoAuditOneExtendIn(cardCreditUsedPercent!=null && cardCreditUsedPercent.compareTo(new BigDecimal(0))<=0);
+    then
+        //actions
+        cExt.setCardCreditUsedPercentDouble(0);
+        update(cExt);
+end
+
+rule "cc_overdraw_rate_r_1_self"
+          ruleflow-group "modelOneConvert"
+          salience 3
+          no-loop true
+    when
+        //conditions
+         cExt:CreditScoreAutoAuditOneExtendIn(cardCreditUsedPercent!=null && cardCreditUsedPercent.compareTo(new BigDecimal(0))>0 && cardCreditUsedPercent.compareTo(new BigDecimal(1))<=0);
+    then
+        //actions
+        cExt.setCardCreditUsedPercentDouble(cExt.getCardCreditUsedPercent().doubleValue());
+        update(cExt);
+end
+rule "cc_overdraw_rate_r_1"
+          ruleflow-group "modelOneConvert"
+          salience 2
+    when
+        //conditions
+         cExt:CreditScoreAutoAuditOneExtendIn(cardCreditUsedPercentDouble==0.0);
+    then
+        //actions
+        cExt.setCc_overdraw_rate_r_1(1);
+end
+
+rule "cc_overdraw_rate_r_2"
+          ruleflow-group "modelOneConvert"
+          salience 1
+    when
+        //conditions
+         cExt:CreditScoreAutoAuditOneExtendIn(cardCreditUsedPercentDouble>=0.95);         
+    then
+        //actions
+        cExt.setCc_overdraw_rate_r_2(1);
+end
+
+rule "ln_1st_open_intvl_1"
+          ruleflow-group "modelOneConvert"
+    when
+        //conditions
+         cExt:CreditScoreAutoAuditOneExtendIn(loanFirstOpenMonth<21);
+    then
+        //actions
+        cExt.setLn_1st_open_intvl_1(1);
+end
+
+rule "cc_mean_line_rmb_2"
+          ruleflow-group "modelOneConvert"
+    when
+        //conditions
+         cExt:CreditScoreAutoAuditOneExtendIn(cardAvgCreditLineAmt!=null && cardAvgCreditLineAmt.compareTo(new BigDecimal(13000))>=0);
+    then
+        //actions
+        cExt.setCc_mean_line_rmb_2(1);
+end
+
+rule "cc_num_fc"
+          ruleflow-group "modelOneConvert"
+    when
+        //conditions
+         cExt:CreditScoreAutoAuditOneExtendIn(cardForeignOrgCNT>4);
+    then
+        //actions
+        cExt.setCc_num_fc(4);
+end
+
+rule "cc_num_fc_less_4"
+          ruleflow-group "modelOneConvert"
+    when
+        //conditions
+         cExt:CreditScoreAutoAuditOneExtendIn(cardForeignOrgCNT<=4);
+    then
+        //actions
+        cExt.setCc_num_fc(cExt.getCardForeignOrgCNT());
+end
